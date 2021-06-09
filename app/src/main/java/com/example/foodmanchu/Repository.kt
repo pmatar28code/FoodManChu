@@ -1,6 +1,9 @@
 package com.example.foodmanchu
 
+import android.content.AsyncTaskLoader
 import android.os.AsyncTask
+import android.util.Log
+import android.widget.Toast
 
 object Repository {
     var categoryList = listOf(
@@ -84,11 +87,21 @@ object Repository {
     )
 
     fun checkIfDatabaseForIngredientsIsEmpty(database: Database){
-        var testListIngredients = database.ingredientsDao().getAllIngredients()
-        if(testListIngredients.isEmpty()){
-            for(ingredient in Repository.IngredientsList){
-                AsyncTask.execute {
-                    database.ingredientsDao().addIngredient(ingredient)
+        AsyncTask.execute {
+            var testListIngredients = database.ingredientsDao().getAllIngredients()
+
+            if (testListIngredients.isEmpty()) {
+                Log.e("ServerEmpty", "so we are adding default ingredients to server")
+                for (ingredient in Repository.IngredientsList) {
+                    AsyncTask.execute {
+                        database.ingredientsDao().addIngredient(ingredient)
+                    }
+                }
+            } else {
+                Log.e("ServerNotEmpty", "so we are copying server ingredients to list")
+                IngredientsList.clear()
+                for (ingredient in testListIngredients) {
+                    IngredientsList.add(ingredient)
                 }
             }
         }

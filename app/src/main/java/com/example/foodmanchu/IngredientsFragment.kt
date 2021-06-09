@@ -19,6 +19,11 @@ class IngredientsFragment:Fragment(R.layout.ingredients_fragment) {
                 layoutManager = LinearLayoutManager(requireContext())
                 ingredientsAdapter.submitList(Repository.IngredientsList)
             }
+
+            addIngredientFab.setOnClickListener{
+                AddIngredientDialog().show(parentFragmentManager,"Show Add Ingredient")
+            }
+
         }
 
     }

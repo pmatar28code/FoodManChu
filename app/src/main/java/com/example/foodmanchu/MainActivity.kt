@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         ).fallbackToDestructiveMigration()
             .build()
 
-
+        Repository.checkIfDatabaseForIngredientsIsEmpty(database!!)
 
         val categoriesAdapter = CategoriesAdapter(onClick = {category ->
             Toast.makeText(this,"this category test: $category",Toast.LENGTH_LONG).show()
