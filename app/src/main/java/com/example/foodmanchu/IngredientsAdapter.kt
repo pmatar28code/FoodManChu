@@ -38,6 +38,7 @@ class IngredientsAdapter(
             fun onBind(ingredient: Ingredients){
                 binding.apply {
                     ingredientText.text = ingredient.ingredientName
+
                 }
             }
         }
