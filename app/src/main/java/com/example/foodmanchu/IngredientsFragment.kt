@@ -12,7 +12,7 @@ class IngredientsFragment:Fragment(R.layout.ingredients_fragment) {
         val binding = IngredientsFragmentBinding.bind(view)
 
         var ingredientsAdapter = IngredientsAdapter()
-
+        var testing = ""
         binding.apply {
             ingredientsRecyclerview.apply{
                 adapter = ingredientsAdapter
