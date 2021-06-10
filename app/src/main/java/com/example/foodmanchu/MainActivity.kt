@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        swapFragments(RecipesFragment())
+
         database = Room.databaseBuilder(
                 applicationContext,
                 Database::class.java,

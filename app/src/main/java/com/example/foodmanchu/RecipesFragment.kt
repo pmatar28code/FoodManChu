@@ -10,6 +10,10 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
         super.onCreate(savedInstanceState)
         val binding = RecipesFragmentBinding.bind(view)
 
+        binding.addRecipeFab.setOnClickListener {
+            AddRecipeDialog().show(parentFragmentManager,"Open Add Recipe")
+        }
+
     }
 
 }
