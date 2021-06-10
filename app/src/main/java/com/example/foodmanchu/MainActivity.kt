@@ -49,10 +49,13 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
 
     private fun handeBottomNavigation(menuItemId: Int, binding: ActivityMainBinding): Boolean = when (menuItemId) {
 
-        R.id.menu_recipes -> {;swapFragments(RecipesFragment());true
+        R.id.menu_recipes -> {
+             swapFragments(RecipesFragment())
+             true
         }
         R.id.menu_ingredients -> {
-            swapFragments(IngredientsFragment());true
+             swapFragments(IngredientsFragment())
+             true
         }
         R.id.menu_search -> {
             true
