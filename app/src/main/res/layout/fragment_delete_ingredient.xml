@@ -8,7 +8,7 @@
         android:id="@+id/delete_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Please select ingredient to delete from the dropdown menu"
+        android:text="@string/fragment_delete_title_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

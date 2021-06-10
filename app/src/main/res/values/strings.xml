@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FoodManChu</string>
+    <string name="fragment_delete_title_text">Please select ingredient to delete from the dropdown menu</string>
 </resources>

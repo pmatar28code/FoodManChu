@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
 
     private fun swapFragments(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 
     override fun addIngredient(ingredient: Ingredients) {
