@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.foodmanchu.databinding.FragmentDeleteIngredientBinding
 
 class DeleteIngredientDialog(): DialogFragment() {
@@ -38,7 +39,11 @@ class DeleteIngredientDialog(): DialogFragment() {
                     for(ingredient in Repository.IngredientsList){
                         if(ingredient.ingredientName == binding.ingredientNameSelectionLayout.editText?.text.toString()){
                             Repository.IngredientsList.remove(ingredient)
+                            Log.e("SEE IF REMOVED F LIST","${Repository.IngredientsList}")
                             index = 0
+                            val ingredientsViewModel = ViewModelProvider(
+                            this).get(IngredientsViewModel::class.java)
+                            ingredientsViewModel.updateLiveIngredients(Repository.IngredientsList)
                             break
                         }
                     }
