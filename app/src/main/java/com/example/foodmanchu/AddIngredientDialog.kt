@@ -4,7 +4,6 @@ package com.example.foodmanchu
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -24,19 +23,17 @@ class AddIngredientDialog: DialogFragment() {
                 val ingredientTextView = binding.ingredientNameEditText
                 val ingredientText = ingredientTextView.text?.toString() ?: ""
 
-                if (ingredientText != "") {
+                if (ingredientText != "" && !Repository.IngredientsList.contains(Ingredients(ingredientName = ingredientText))) {
                     val newIngredient = Ingredients(ingredientName = ingredientText)
                     Repository.IngredientsList.add(newIngredient)
                     val mainActivity = activity as MainActivity
                     mainActivity.addIngredient(newIngredient)
                 }else{
-                    Toast.makeText(requireContext(),"Please enter ingredient name actual: $ingredientText",Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),"Please enter ingredient name or an ingredient that's not on the list",Toast.LENGTH_LONG).show()
                 }
             }
             .setNegativeButton("Cancel",null)
             .create()
-
-
 
     }
 

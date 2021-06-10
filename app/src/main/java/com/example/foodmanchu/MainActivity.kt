@@ -72,4 +72,10 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         }
     }
 
+    override fun deleteIngredient(ingredient: String) {
+        AsyncTask.execute {
+            database?.ingredientsDao()?.deleteFromIngredients(ingredient)
+        }
+    }
+
 }
