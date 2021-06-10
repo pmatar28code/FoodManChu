@@ -10,7 +10,7 @@ import com.example.foodmanchu.databinding.IngredientsFragmentBinding
 
 class IngredientsFragment:Fragment(R.layout.ingredients_fragment) {
 
-    private var ingredientsAdapter: IngredientsAdapter ?= null
+    private lateinit var ingredientsAdapter: IngredientsAdapter 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
