@@ -22,7 +22,7 @@ class IngredientsFragment:Fragment(R.layout.ingredients_fragment) {
             ingredientsRecyclerview.apply{
                 adapter = ingredientsAdapter
                 layoutManager = LinearLayoutManager(requireContext())
-                ingredientsAdapter?.submitList(Repository.IngredientsList)
+                ingredientsAdapter.submitList(Repository.IngredientsList)
             }
 
             addIngredientFab.setOnClickListener{
@@ -61,7 +61,7 @@ class IngredientsFragment:Fragment(R.layout.ingredients_fragment) {
 
 
     fun updateAdapter(){
-        ingredientsAdapter?.notifyDataSetChanged()
+        ingredientsAdapter.notifyDataSetChanged()
     }
 
 }
