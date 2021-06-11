@@ -93,7 +93,7 @@ class AddRecipeDialog:DialogFragment() {
             prepTime = binding.addRecipePrepTimeEditText.text.toString() ,
             recipeCategory = binding.addRecipeCategoryLayout.editText?.text.toString()
         )
-        Log.e("WHAT CATEGORY NEWRECIPE","${newRecipe.recipeCategory}")
+        //Log.e("WHAT CATEGORY NEWRECIPE","${newRecipe.recipeCategory}")
         Repository.recipesList.add(newRecipe)
         Repository.recipesListFilterForCategoryClick.add(newRecipe)
         var mainActivity = activity as MainActivity
