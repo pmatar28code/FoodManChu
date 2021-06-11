@@ -1,6 +1,5 @@
 package com.example.foodmanchu
 
-import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.RoomDatabase
 

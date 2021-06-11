@@ -13,14 +13,14 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         private const val DATABASE_NAME = "RDATABASE"
     }
 
-    var database: Database? = null
+    lateinit var database: Database
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        swapFragments(RecipesFragment())
+        swapFragments(CategoriesFragment())
 
         database = Room.databaseBuilder(
                 applicationContext,
@@ -29,7 +29,9 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         ).fallbackToDestructiveMigration()
                 .build()
 
-        Repository.checkIfDatabaseForIngredientsIsEmpty(database!!)
+        Repository.checkIfDatabaseForIngredientsIsEmpty(database)
+        Repository.checkIfDatabaseForRecipesIsEmpty(database)
+
 
         val categoriesAdapter = CategoriesAdapter(onClick = { category ->
             Toast.makeText(this, "this category test: $category", Toast.LENGTH_LONG).show()
@@ -43,17 +45,25 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
 
 
             bottomNavigationView.setOnNavigationItemSelectedListener {
-                handeBottomNavigation(it.itemId, binding)
+                handleBottomNavigation(it.itemId, binding)
             }
         }
 
     }
 
-    private fun handeBottomNavigation(menuItemId: Int, binding: ActivityMainBinding): Boolean = when (menuItemId) {
+    private fun handleBottomNavigation(menuItemId: Int, binding: ActivityMainBinding): Boolean = when (menuItemId) {
 
-        R.id.menu_recipes -> {
-             swapFragments(RecipesFragment())
+        R.id.menu_categories -> {
+             Repository.recipesListFilterForCategoryClick.clear()
+             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
+             swapFragments(CategoriesFragment())
              true
+        }
+        R.id.menu_recipes -> {
+            Repository.recipesListFilterForCategoryClick.clear()
+            Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
+            swapFragments(RecipesFragment())
+            true
         }
         R.id.menu_ingredients -> {
              swapFragments(IngredientsFragment())
@@ -65,7 +75,7 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         else -> false
     }
 
-    private fun swapFragments(fragment: Fragment) {
+     override fun swapFragments(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
@@ -73,14 +83,24 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
 
     override fun addIngredient(ingredient: Ingredients) {
         AsyncTask.execute {
-            database?.ingredientsDao()?.addIngredient(ingredient)
+            database.ingredientsDao().addIngredient(ingredient)
         }
     }
 
     override fun deleteIngredient(ingredient: String) {
         AsyncTask.execute {
-            database?.ingredientsDao()?.deleteFromIngredients(ingredient)
+            database.ingredientsDao().deleteFromIngredients(ingredient)
         }
+    }
+
+    override fun addRecipe(recipe: Recipes) {
+        AsyncTask.execute {
+            database.recipesDao().addRecipe(recipe)
+        }
+    }
+
+    override fun deleteRecipe(recipe: String) {
+
     }
 
 }
