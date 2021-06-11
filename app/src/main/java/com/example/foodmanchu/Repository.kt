@@ -236,13 +236,12 @@ object Repository {
             if(recipe.recipeCategory == category){
                 recipesListFilterForCategoryClick.add(recipe)
             }
-
-            if(recipesListFilterForCategoryClick.isNotEmpty()){
-                var activityMain = activity
-                activityMain.swapFragments(RecipesFragment())
-            }else{
-                Toast.makeText(context,"There are no recipes in this category: $category",Toast.LENGTH_LONG).show()
-            }
+        }
+        if(recipesListFilterForCategoryClick.isNotEmpty()){
+            var activityMain = activity
+            activityMain.swapFragments(RecipesFragment())
+        }else{
+            Toast.makeText(context,"There are no recipes in this category: $category",Toast.LENGTH_SHORT).show()
         }
     }
 }

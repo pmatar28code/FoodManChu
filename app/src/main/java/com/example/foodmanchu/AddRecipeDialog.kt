@@ -13,7 +13,7 @@ import com.example.foodmanchu.databinding.FragmentAddRecipeBinding
 class AddRecipeDialog:DialogFragment() {
     lateinit var binding: FragmentAddRecipeBinding
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-    val inflater = LayoutInflater.from(context)
+    val inflater = LayoutInflater.from(requireContext())
     binding = FragmentAddRecipeBinding.inflate(inflater)
 
     val ingredientsAvailable = Repository.IngredientsList
@@ -35,8 +35,7 @@ class AddRecipeDialog:DialogFragment() {
     return AlertDialog.Builder(requireContext())
         .setView(binding.root)
         .setPositiveButton("Add"){_,_ ->
-
-
+            addRecipeToListAndDataBase(binding)
         }
         .setNegativeButton("Cancel",null)
         .create()
@@ -73,7 +72,6 @@ class AddRecipeDialog:DialogFragment() {
                     Repository.listOfSelectedIngredientsForRecipe.add(arrayIngredients[i])
                 }
             }
-            addRecipeToListAndDataBase(binding)
         }
         dialog = builder.create()
         dialog.show()
@@ -82,18 +80,18 @@ class AddRecipeDialog:DialogFragment() {
     fun addRecipeToListAndDataBase(binding:FragmentAddRecipeBinding){
         var ingredientsSelectedString = ""
         for(ingredient in Repository.listOfSelectedIngredientsForRecipe){
-            ingredientsSelectedString += "$ingredient, "
+            ingredientsSelectedString += "$ingredient,"
         }
         ingredientsSelectedString.dropLast(1)
         var newRecipe = Recipes(
-            recipeName = binding.addRecipeNameEditText.text.toString(),
+            recipeName = binding.addRecipeNameEditText.text?.toString()?:"",
             ingredientsToUse = ingredientsSelectedString,
-            description = binding.addRecipeDescriptionEditText.text.toString(),
-            cookingInstructions = binding.addRecipeInstructionsEditText.text.toString(),
-            prepTime = binding.addRecipePrepTimeEditText.text.toString() ,
-            recipeCategory = binding.addRecipeCategoryLayout.editText?.text.toString()
+            description = binding.addRecipeDescriptionEditText.text?.toString()?:"",
+            cookingInstructions = binding.addRecipeInstructionsEditText.text?.toString()?:"",
+            prepTime = binding.addRecipePrepTimeEditText.text?.toString()?:"",
+            recipeCategory = binding.addRecipeCategoryLayout.editText?.text?.toString()?:""
         )
-        //Log.e("WHAT CATEGORY NEWRECIPE","${newRecipe.recipeCategory}")
+        Log.e("WHAT CATEGORY NEWRECIPE","${newRecipe.recipeCategory}")
         Repository.recipesList.add(newRecipe)
         Repository.recipesListFilterForCategoryClick.add(newRecipe)
         var mainActivity = activity as MainActivity
