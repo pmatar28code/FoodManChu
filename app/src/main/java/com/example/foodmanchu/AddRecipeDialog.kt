@@ -16,7 +16,7 @@ class AddRecipeDialog:DialogFragment() {
         val inflater = LayoutInflater.from(context)
         val binding = FragmentAddRecipeBinding.inflate(inflater)
 
-        val ingredientsAvailable = Repository.IngredientsList
+        val ingredientsAvailable = Repository.IngredientsCheckedList
         val adapterIngredients = ArrayAdapter(requireContext(), R.layout.ingredients_listing, ingredientsAvailable)
 
         (binding.addRecipeIngredientsLayout.editText as? AutoCompleteTextView)?.setAdapter(adapterIngredients)
@@ -26,6 +26,9 @@ class AddRecipeDialog:DialogFragment() {
         val adapterCategories = ArrayAdapter(requireContext(),R.layout.ingredients_listing,categoriesAvailable)
         (binding.addRecipeCategoryLayout.editText as? AutoCompleteTextView)?.setAdapter(adapterCategories)
 
+        binding.button.setOnClickListener {
+            SelectIngredientDialog().show(parentFragmentManager,"Opening Ingredients Selection")
+        }
 
         return AlertDialog.Builder(requireContext())
                 .setView(binding.root)

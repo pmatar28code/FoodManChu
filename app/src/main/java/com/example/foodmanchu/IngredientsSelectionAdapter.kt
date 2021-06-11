@@ -5,40 +5,47 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodmanchu.databinding.ItemIngredientsBinding
 import com.example.foodmanchu.databinding.ItemIngredientsRecipeSelectionBinding
 
 class IngredientsSelectionAdapter(
-): ListAdapter<Ingredients,IngredientsSelectionAdapter.IngredientsViewHolder>(diff) {
+
+): ListAdapter<IngredientsChecked,IngredientsSelectionAdapter.IngredientsSelectionViewHolder>(diff) {
     companion object{
-        val diff = object : DiffUtil.ItemCallback<Ingredients>(){
-            override fun areItemsTheSame(oldItem: Ingredients, newItem: Ingredients): Boolean {
+        val diff = object : DiffUtil.ItemCallback<IngredientsChecked>(){
+            override fun areItemsTheSame(oldItem: IngredientsChecked, newItem: IngredientsChecked): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Ingredients, newItem: Ingredients): Boolean {
+            override fun areContentsTheSame(oldItem: IngredientsChecked, newItem: IngredientsChecked): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsSelectionViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemIngredientsRecipeSelectionBinding.inflate(inflater,parent,false)
-        return IngredientsViewHolder(binding)
+        return IngredientsSelectionViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IngredientsSelectionViewHolder, position: Int) {
         holder.onBind(getItem(position))
 
     }
 
-    class IngredientsViewHolder(
+    class IngredientsSelectionViewHolder(
+
             private val binding : ItemIngredientsRecipeSelectionBinding
     ): RecyclerView.ViewHolder(binding.root){
-        fun onBind(ingredient: Ingredients){
+        fun onBind(ingredient: IngredientsChecked){
             binding.apply {
                 ingredientRecipeSelectionNameText.text = ingredient.ingredientName
+                var isChecked = ingredientCheckbox.isChecked
+                if(isChecked){
+                    Repository.IngredientsCheckedList.add(ingredient)
+                }else{
+                    Repository.IngredientsCheckedList.remove(ingredient)
+                }
 
             }
         }
