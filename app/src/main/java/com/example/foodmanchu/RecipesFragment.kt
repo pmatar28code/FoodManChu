@@ -12,7 +12,12 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
         super.onCreate(savedInstanceState)
         val binding = RecipesFragmentBinding.bind(view)
 
-        recipesAdapter = RecipesAdapter()
+        recipesAdapter = RecipesAdapter(){recipe ->
+            Repository.listOfRecipeForDetail.clear()
+            Repository.listOfRecipeForDetail.add(recipe)
+            var mainActivity = activity as MainActivity
+            mainActivity.swapFragments(RecipeDetailsFragment())
+        }
 
         binding.apply {
             addRecipeFab.setOnClickListener {

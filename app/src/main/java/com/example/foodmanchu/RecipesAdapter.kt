@@ -2,12 +2,14 @@ package com.example.foodmanchu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodmanchu.databinding.ItemRecipesBinding
 
 class RecipesAdapter(
+        val onCLick:(Recipes) -> Unit
 ): ListAdapter<Recipes,RecipesAdapter.RecipesViewHolder>(diff) {
     companion object{
         val diff = object : DiffUtil.ItemCallback<Recipes>(){
@@ -24,7 +26,7 @@ class RecipesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemRecipesBinding.inflate(inflater,parent,false)
-        return RecipesViewHolder(binding)
+        return RecipesViewHolder(binding,onCLick)
     }
 
     override fun onBindViewHolder(holder: RecipesViewHolder, position: Int) {
@@ -33,11 +35,15 @@ class RecipesAdapter(
     }
 
     class RecipesViewHolder(
-            private val binding : ItemRecipesBinding
+        private val binding : ItemRecipesBinding,
+        private val onCLick: (Recipes) -> Unit
     ): RecyclerView.ViewHolder(binding.root){
         fun onBind(recipe: Recipes){
             binding.apply {
                 recipeNameText.text = recipe.recipeName
+                recipeNameText.setOnClickListener {
+                    onCLick(recipe)
+                }
 
             }
         }
