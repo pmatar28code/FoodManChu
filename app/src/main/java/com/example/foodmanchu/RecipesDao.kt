@@ -13,6 +13,14 @@ interface RecipesDao {
     fun getAllRecipes(): List<Recipes>
 
     @Query("SELECT * FROM Recipes WHERE ingredientsToUse LIKE :search  ")
-    fun findWordsInclude(search:String):MutableList<Recipes>
+    fun findIngredientFilter(search:String):MutableList<Recipes>
 
+    @Query("SELECT * FROM Recipes WHERE recipeName LIKE :search  ")
+    fun findNameFilter(search:String):MutableList<Recipes>
+
+    @Query("SELECT * FROM Recipes WHERE recipeCategory LIKE :search  ")
+    fun findCategoryFilter(search:String):MutableList<Recipes>
+
+    @Query("SELECT * FROM Recipes WHERE prepTime LIKE :search  ")
+    fun findPrepTimeFilter(search:String):MutableList<Recipes>
 }

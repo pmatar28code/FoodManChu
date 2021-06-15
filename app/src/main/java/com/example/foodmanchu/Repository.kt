@@ -6,6 +6,14 @@ import android.util.Log
 import android.widget.Toast
 
 object Repository {
+    var filtersList = mutableListOf(
+            "Ingredients",
+            "PrepTime",
+            "RecipeName",
+            "Description",
+            "Category"
+    )
+
     var listOfRecipeForDetail = mutableListOf<Recipes>()
 
     var listOfSelectedIngredientsForRecipe = mutableListOf<String>()

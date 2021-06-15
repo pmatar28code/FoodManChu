@@ -8,4 +8,5 @@ interface DatabaseInterface {
     fun addRecipe(recipe:Recipes)
     fun deleteRecipe(recipe: String)
     fun swapFragments(fragment: Fragment)
+    fun searchBy(filter:String,word:String)
 }

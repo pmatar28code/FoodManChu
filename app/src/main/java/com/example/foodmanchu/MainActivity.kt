@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
              true
         }
         R.id.menu_search -> {
+            swapFragments(SearchFragment())
             true
         }
         else -> false
@@ -80,6 +81,31 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+
+    override fun searchBy(filter: String, word: String) {
+        when(filter){
+            "Ingredients" -> {
+                Repository.recipesListFilterForCategoryClick.clear()
+                AsyncTask.execute {
+                    var ingredientsFilterResult = database.recipesDao().findIngredientFilter(word)
+                    Repository.recipesListFilterForCategoryClick = ingredientsFilterResult.map { it }.toMutableList()
+                    swapFragments(RecipesFragment())
+                }
+            }
+            "PrepTime" -> {}
+            "RecipeName" -> {}
+            "Description" -> {}
+            "Category" -> {
+                Repository.recipesListFilterForCategoryClick.clear()
+                AsyncTask.execute {
+                    var categoryFilterResult = database.recipesDao().findCategoryFilter(word)
+                    Repository.recipesListFilterForCategoryClick = categoryFilterResult.map { it }.toMutableList()
+                    swapFragments(RecipesFragment())
+                }
+            }
+            }
+        }
+
 
     override fun addIngredient(ingredient: Ingredients) {
         AsyncTask.execute {
