@@ -35,6 +35,8 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
         },{recipeDelete ->
             Repository.recipesList.remove(recipeDelete)
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
+            recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
+            recipesAdapter.notifyDataSetChanged()
             var mainActivity = activity as MainActivity
             mainActivity.deleteRecipe(recipeDelete.recipeName)
         },{recipeEdit ->
