@@ -38,7 +38,8 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             var mainActivity = activity as MainActivity
             mainActivity.deleteRecipe(recipeDelete.recipeName)
         },{recipeEdit ->
-
+            Repository.recipeToEdit = recipeEdit
+            EditRecipeDialog().show(parentFragmentManager,"Open Edit Recipe")
         })
 
         binding.apply {

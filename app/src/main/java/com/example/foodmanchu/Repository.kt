@@ -6,6 +6,16 @@ import android.util.Log
 import android.widget.Toast
 
 object Repository {
+
+    var recipeToEdit = Recipes(
+            recipeName = "",
+            ingredientsToUse = "",
+            description = "",
+            cookingInstructions = "",
+            prepTime = "",
+            recipeCategory = ""
+    )
+
     var filtersList = mutableListOf(
             "Ingredients",
             "PrepTime",
@@ -25,7 +35,7 @@ object Repository {
     var recipesList = mutableListOf<Recipes>(
             Recipes(
                 recipeName = "scrambled Eggs",
-                ingredientsToUse = "eggs,salt",
+                ingredientsToUse = "egg,salt",
                 description = "delicious scrambled eggs",
                 cookingInstructions = "mix to eggs,add salt,cook for 3.5 minutes,enjoy",
                 prepTime = "4 minutes",
