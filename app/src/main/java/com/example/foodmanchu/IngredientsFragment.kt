@@ -30,7 +30,10 @@ class IngredientsFragment:Fragment(R.layout.ingredients_fragment) {
             }
 
             deleteIngredientFab.setOnClickListener {
-                DeleteIngredientDialog().show(parentFragmentManager,"Show Delete Ingredient")
+                DeleteIngredientDialog.create {
+                    ingredientsAdapter.submitList(Repository.IngredientsList)
+                    ingredientsAdapter.notifyDataSetChanged()
+                }.show(parentFragmentManager,"Show Delete Ingredient")
                 //ingredientsAdapter?.notifyItemRemoved(DeleteIngredientDialog.indexx!!)
             }
             /*

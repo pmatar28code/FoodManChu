@@ -44,7 +44,10 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
 
         binding.apply {
             addRecipeFab.setOnClickListener {
-                AddRecipeDialog().show(parentFragmentManager,"Open Add Recipe")
+                AddRecipeDialog.create {
+                    recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
+                    recipesAdapter.notifyDataSetChanged()
+                }.show(parentFragmentManager,"Open Add Recipe")
             }
             recipesRecyclerView.apply {
                 adapter = recipesAdapter

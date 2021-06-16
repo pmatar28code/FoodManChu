@@ -11,6 +11,15 @@ import androidx.fragment.app.DialogFragment
 import com.example.foodmanchu.databinding.FragmentAddRecipeBinding
 
 class AddRecipeDialog:DialogFragment() {
+    companion object{
+        fun create(listener:()->Unit):AddRecipeDialog{
+            return AddRecipeDialog().apply {
+                this.listener = listener
+            }
+        }
+    }
+
+    private var listener : () -> Unit = {}
     lateinit var binding: FragmentAddRecipeBinding
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     val inflater = LayoutInflater.from(requireContext())
@@ -36,6 +45,7 @@ class AddRecipeDialog:DialogFragment() {
         .setView(binding.root)
         .setPositiveButton("Add"){_,_ ->
             addRecipeToListAndDataBase(binding)
+            listener()
         }
         .setNegativeButton("Cancel",null)
         .create()

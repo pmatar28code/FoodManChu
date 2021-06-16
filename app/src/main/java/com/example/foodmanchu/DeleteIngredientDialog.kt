@@ -11,6 +11,14 @@ import androidx.fragment.app.DialogFragment
 import com.example.foodmanchu.databinding.FragmentDeleteIngredientBinding
 
 class DeleteIngredientDialog(): DialogFragment() {
+    companion object{
+        fun create(listener:()->Unit):DeleteIngredientDialog{
+            return DeleteIngredientDialog().apply {
+                this.listener = listener
+            }
+        }
+    }
+    private var listener : () -> Unit = {}
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(requireContext())
@@ -39,6 +47,7 @@ class DeleteIngredientDialog(): DialogFragment() {
                         if(ingredient.ingredientName == binding.ingredientNameSelectionLayout.editText?.text.toString()){
                             Repository.IngredientsList.remove(ingredient)
                             index = 0
+                            listener()
                             break
                         }
                     }
