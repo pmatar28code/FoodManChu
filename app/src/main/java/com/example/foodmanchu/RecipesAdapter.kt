@@ -11,7 +11,8 @@ import com.example.foodmanchu.databinding.ItemRecipesBinding
 class RecipesAdapter(
         val onCLickForDetails:(Recipes) -> Unit,
         val onClickForDuplicate:(Recipes) -> Unit,
-        val onClickForDelete:(Recipes) -> Unit
+        val onClickForDelete:(Recipes) -> Unit,
+        val onClickForEdit:(Recipes) -> Unit
 ): ListAdapter<Recipes,RecipesAdapter.RecipesViewHolder>(diff) {
     companion object{
         val diff = object : DiffUtil.ItemCallback<Recipes>(){
@@ -28,7 +29,7 @@ class RecipesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemRecipesBinding.inflate(inflater,parent,false)
-        return RecipesViewHolder(binding,onCLickForDetails,onClickForDuplicate,onClickForDelete)
+        return RecipesViewHolder(binding,onCLickForDetails,onClickForDuplicate,onClickForDelete,onClickForEdit)
     }
 
     override fun onBindViewHolder(holder: RecipesViewHolder, position: Int) {
@@ -40,7 +41,8 @@ class RecipesAdapter(
             private val binding : ItemRecipesBinding,
             private val onCLickForDetails: (Recipes) -> Unit,
             private val onClickForDuplicate: (Recipes) -> Unit,
-            private val onClickForDelete: (Recipes) -> Unit
+            private val onClickForDelete: (Recipes) -> Unit,
+            private val onClickForEdit: (Recipes) -> Unit
     ): RecyclerView.ViewHolder(binding.root){
         fun onBind(recipe: Recipes){
             binding.apply {
@@ -53,6 +55,9 @@ class RecipesAdapter(
                 }
                 deleteRecipeImage.setOnClickListener {
                     onClickForDelete(recipe)
+                }
+                editRecipeImage.setOnClickListener {
+                    onClickForEdit(recipe)
                 }
 
             }

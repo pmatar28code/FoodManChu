@@ -37,6 +37,8 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
             var mainActivity = activity as MainActivity
             mainActivity.deleteRecipe(recipeDelete.recipeName)
+        },{recipeEdit ->
+
         })
 
         binding.apply {

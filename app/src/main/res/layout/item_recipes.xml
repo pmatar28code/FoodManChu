@@ -30,4 +30,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_remove" />
+
+    <ImageView
+        android:id="@+id/edit_recipe_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/standard_margin"
+        app:layout_constraintEnd_toStartOf="@+id/duplicate_recipe_image"
+        app:srcCompat="@drawable/ic_edit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
