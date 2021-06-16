@@ -9,6 +9,9 @@ interface RecipesDao {
     @Insert
     fun addRecipe(ingredient:Recipes)
 
+    @Query("DELETE FROM Recipes WHERE recipeName = :recipeName")
+    fun deleteFromRecipes(recipeName: String)
+
     @Query("SELECT * FROM Recipes")
     fun getAllRecipes(): List<Recipes>
 

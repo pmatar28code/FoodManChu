@@ -158,7 +158,9 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
     }
 
     override fun deleteRecipe(recipe: String) {
-
+        AsyncTask.execute {
+            database.recipesDao().deleteFromRecipes(recipe)
+        }
     }
 
 }

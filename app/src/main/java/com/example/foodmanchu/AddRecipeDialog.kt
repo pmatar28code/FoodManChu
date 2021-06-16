@@ -82,7 +82,7 @@ class AddRecipeDialog:DialogFragment() {
         for(ingredient in Repository.listOfSelectedIngredientsForRecipe){
             ingredientsSelectedString += "$ingredient,"
         }
-        ingredientsSelectedString.dropLast(1)
+        ingredientsSelectedString = ingredientsSelectedString.dropLast(1)
         var newRecipe = Recipes(
             recipeName = binding.addRecipeNameEditText.text?.toString()?:"",
             ingredientsToUse = ingredientsSelectedString,
