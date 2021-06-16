@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
      override fun swapFragments(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
+            .addToBackStack("back")
             .commit()
     }
 
@@ -87,24 +88,55 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
             "Ingredients" -> {
                 Repository.recipesListFilterForCategoryClick.clear()
                 AsyncTask.execute {
-                    var ingredientsFilterResult = database.recipesDao().findIngredientFilter(word)
-                    Repository.recipesListFilterForCategoryClick = ingredientsFilterResult.map { it }.toMutableList()
+                    var ingredientsFilterResult =
+                    database.recipesDao().findIngredientFilter(word)
+                    Repository.recipesListFilterForCategoryClick =
+                    ingredientsFilterResult.map { it }.toMutableList()
                     swapFragments(RecipesFragment())
                 }
             }
-            "PrepTime" -> {}
-            "RecipeName" -> {}
-            "Description" -> {}
+            "PrepTime" -> {
+                Repository.recipesListFilterForCategoryClick.clear()
+                AsyncTask.execute {
+                    var prepTimeFilterResult =
+                    database.recipesDao().findPrepTimeFilter(word)
+                    Repository.recipesListFilterForCategoryClick =
+                    prepTimeFilterResult.map { it }.toMutableList()
+                    swapFragments(RecipesFragment())
+                }
+            }
+            "RecipeName" -> {
+                Repository.recipesListFilterForCategoryClick.clear()
+                AsyncTask.execute {
+                    var recipeNameFilterResult =
+                    database.recipesDao().findNameFilter(word)
+                    Repository.recipesListFilterForCategoryClick =
+                    recipeNameFilterResult.map { it }.toMutableList()
+                    swapFragments(RecipesFragment())
+                }
+            }
+            "Description" -> {
+                Repository.recipesListFilterForCategoryClick.clear()
+                AsyncTask.execute {
+                    var descriptionFilterResult =
+                    database.recipesDao().findDescriptionFilter(word)
+                    Repository.recipesListFilterForCategoryClick =
+                    descriptionFilterResult.map { it }.toMutableList()
+                    swapFragments(RecipesFragment())
+                }
+            }
             "Category" -> {
                 Repository.recipesListFilterForCategoryClick.clear()
                 AsyncTask.execute {
-                    var categoryFilterResult = database.recipesDao().findCategoryFilter(word)
-                    Repository.recipesListFilterForCategoryClick = categoryFilterResult.map { it }.toMutableList()
+                    var categoryFilterResult =
+                    database.recipesDao().findCategoryFilter(word)
+                    Repository.recipesListFilterForCategoryClick =
+                    categoryFilterResult.map { it }.toMutableList()
                     swapFragments(RecipesFragment())
                 }
             }
-            }
         }
+    }
 
 
     override fun addIngredient(ingredient: Ingredients) {
