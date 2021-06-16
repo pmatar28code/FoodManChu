@@ -29,6 +29,8 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             )
             Repository.recipesList.add(duplicateRecipe)
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
+            recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
+            recipesAdapter.notifyDataSetChanged()
             var mainActivity = activity as MainActivity
             mainActivity.addRecipe(duplicateRecipe)
 
