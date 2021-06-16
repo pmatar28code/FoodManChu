@@ -39,7 +39,10 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             mainActivity.deleteRecipe(recipeDelete.recipeName)
         },{recipeEdit ->
             Repository.recipeToEdit = recipeEdit
-            EditRecipeDialog().show(parentFragmentManager,"Open Edit Recipe")
+            EditRecipeDialog.create {
+                recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
+                recipesAdapter.notifyDataSetChanged()
+            }.show(parentFragmentManager,"Open Edit Recipe")
         })
 
         binding.apply {

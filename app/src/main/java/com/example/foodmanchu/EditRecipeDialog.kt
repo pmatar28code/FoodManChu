@@ -12,6 +12,15 @@ import androidx.fragment.app.DialogFragment
 import com.example.foodmanchu.databinding.FragmentEditRecipeBinding
 
 class EditRecipeDialog(): DialogFragment() {
+    companion object{
+        fun create(listener:()->Unit):EditRecipeDialog{
+            return EditRecipeDialog().apply {
+                this.listener = listener
+            }
+        }
+    }
+
+    private var listener : () -> Unit = {}
     lateinit var recipe:Recipes
     lateinit var mainActivity: MainActivity
     lateinit var binding: FragmentEditRecipeBinding
@@ -51,8 +60,10 @@ class EditRecipeDialog(): DialogFragment() {
                 .setView(binding.root)
                 .setPositiveButton("Apply"){_,_ ->
                     Repository.recipesList.remove(recipe)
+                    Repository.recipesListFilterForCategoryClick.remove(recipe)
                     mainActivity.deleteRecipe(recipe.recipeName)
                     addRecipeToListAndDataBase(binding)
+                    listener()
                 }
                 .setNegativeButton("Cancel",null)
                 .create()
