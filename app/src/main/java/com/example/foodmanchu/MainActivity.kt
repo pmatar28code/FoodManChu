@@ -32,26 +32,16 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         Repository.checkIfDatabaseForIngredientsIsEmpty(database)
         Repository.checkIfDatabaseForRecipesIsEmpty(database)
 
-
-        val categoriesAdapter = CategoriesAdapter(onClick = { category ->
-            Toast.makeText(this, "this category test: $category", Toast.LENGTH_LONG).show()
-        })
         binding.apply {
-            //categoriesRecyclerView.apply {
-            //    adapter = categoriesAdapter
-            //   layoutManager = LinearLayoutManager(this@MainActivity)
-            //  categoriesAdapter.submitList(Repository.categoryList)
-            //}
-
-
             bottomNavigationView.setOnNavigationItemSelectedListener {
                 handleBottomNavigation(it.itemId, binding)
             }
         }
-
     }
 
-    private fun handleBottomNavigation(menuItemId: Int, binding: ActivityMainBinding): Boolean = when (menuItemId) {
+    private fun handleBottomNavigation(
+            menuItemId: Int, binding: ActivityMainBinding
+    ): Boolean = when (menuItemId) {
 
         R.id.menu_categories -> {
              Repository.recipesListFilterForCategoryClick.clear()
@@ -138,7 +128,6 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         }
     }
 
-
     override fun addIngredient(ingredient: Ingredients) {
         AsyncTask.execute {
             database.ingredientsDao().addIngredient(ingredient)
@@ -162,5 +151,4 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
             database.recipesDao().deleteFromRecipes(recipe)
         }
     }
-
 }
