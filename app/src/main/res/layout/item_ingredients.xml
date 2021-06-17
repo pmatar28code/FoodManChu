@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:text="TextView"
-        android:textAlignment="center"
+        android:textAlignment="viewStart"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
