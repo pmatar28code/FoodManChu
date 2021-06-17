@@ -32,7 +32,7 @@ class CategoriesAdapter(
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         holder.onBind(getItem(position))
-
+        var item = getItem(position)
     }
 
     class CategoriesViewHolder(
@@ -44,6 +44,24 @@ class CategoriesAdapter(
                 categorieText.text = item
                 categorieText.setOnClickListener {
                     onClick(item)
+                }
+                when(item){
+                    "Meat" -> {
+                        categoryImage.setImageResource(R.drawable.meat)
+                    }
+                    "Vegetarian" -> {
+                        categoryImage.setImageResource(R.drawable.vegetarian)
+                    }
+                    "Vegan" -> {
+                        categoryImage.setImageResource(R.drawable.vegan)
+                    }
+                    "Paleo" -> {
+                        categoryImage.setImageResource(R.drawable.paleo)
+                    }
+                    "Keto" -> {
+                        categoryImage.setImageResource(R.drawable.keto)
+                    }
+                    else -> {}
                 }
             }
         }
