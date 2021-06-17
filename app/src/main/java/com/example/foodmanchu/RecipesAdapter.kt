@@ -3,6 +3,7 @@ package com.example.foodmanchu
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +48,7 @@ class RecipesAdapter(
         fun onBind(recipe: Recipes){
             binding.apply {
                 recipeNameText.text = recipe.recipeName
+                itemRecipeImage.setImageURI(recipe.recipeImage.toUri())
                 recipeNameText.setOnClickListener {
                     onCLickForDetails(recipe)
                 }

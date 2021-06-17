@@ -12,5 +12,6 @@ data class Recipes(
     @ColumnInfo(name= "description") val description:String,
     @ColumnInfo(name = "cookingInstructions") val cookingInstructions:String,
     @ColumnInfo(name = "prepTime") val prepTime:String,
-    @ColumnInfo(name = "recipeCategory") val recipeCategory:String
+    @ColumnInfo(name = "recipeCategory") val recipeCategory:String,
+    @ColumnInfo(name = "recipeImage") val recipeImage:String
 )

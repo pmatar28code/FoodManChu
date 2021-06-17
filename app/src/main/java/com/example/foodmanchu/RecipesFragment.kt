@@ -25,7 +25,8 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
                     description = recipeDuplicate.description,
                     prepTime = recipeDuplicate.prepTime,
                     ingredientsToUse = recipeDuplicate.ingredientsToUse,
-                    cookingInstructions = recipeDuplicate.cookingInstructions
+                    cookingInstructions = recipeDuplicate.cookingInstructions,
+                    recipeImage = recipeDuplicate.recipeImage
             )
             Repository.recipesList.add(duplicateRecipe)
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()

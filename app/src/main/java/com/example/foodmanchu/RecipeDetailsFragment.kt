@@ -2,6 +2,7 @@ package com.example.foodmanchu
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.foodmanchu.databinding.RecipeDetailsFragmentBinding
 
@@ -19,8 +20,7 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
             recipeDetailsInstructionsText.text =recipe.cookingInstructions
             recipeDetailsPreptimeText.text = recipe.prepTime
             recipesDetailsCategoryText.text = recipe.recipeCategory
+            detailsImage.setImageURI(recipe.recipeImage.toUri())
         }
-
-
     }
 }

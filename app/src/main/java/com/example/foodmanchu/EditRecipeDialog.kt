@@ -2,12 +2,16 @@ package com.example.foodmanchu
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import com.example.foodmanchu.databinding.FragmentEditRecipeBinding
 
@@ -18,8 +22,9 @@ class EditRecipeDialog(): DialogFragment() {
                 this.listener = listener
             }
         }
+        private const val PICK_IMAGE = 101
     }
-
+    private var imageUri ="".toUri()
     private var listener : () -> Unit = {}
     lateinit var recipe:Recipes
     lateinit var mainActivity: MainActivity
@@ -37,13 +42,14 @@ class EditRecipeDialog(): DialogFragment() {
             editRecipeInstructionsEditText.setText(recipe.cookingInstructions)
             editRecipeDescriptionEditText.setText(recipe.description)
             editTextView.text = recipe.ingredientsToUse
+            editAddImage.setImageURI(recipe.recipeImage.toUri())
 
 
-            val ingredientsAvailable = Repository.IngredientsList
-            val adapterIngredients =
-                    ArrayAdapter(requireContext(), R.layout.ingredients_listing, ingredientsAvailable)
+            //val ingredientsAvailable = Repository.IngredientsList
+           // val adapterIngredients =
+                 //   ArrayAdapter(requireContext(), R.layout.ingredients_listing, ingredientsAvailable)
 
-            (editRecipeIngredientsLayout.editText as? AutoCompleteTextView)?.setAdapter(adapterIngredients)
+            //(editRecipeIngredientsLayout.editText as? AutoCompleteTextView)?.setAdapter(adapterIngredients)
 
 
             val categoriesAvailable = Repository.categoryList
@@ -54,6 +60,11 @@ class EditRecipeDialog(): DialogFragment() {
             editIngredientsButton.setOnClickListener {
                 showDialog()
             }
+        }
+
+        binding.editAddImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_IMAGE)
         }
 
         return AlertDialog.Builder(requireContext())
@@ -124,12 +135,40 @@ class EditRecipeDialog(): DialogFragment() {
                 description = binding.editRecipeDescriptionEditText.text?.toString()?:"",
                 cookingInstructions = binding.editRecipeInstructionsEditText.text?.toString()?:"",
                 prepTime = binding.editRecipePrepTimeEditText.text?.toString()?:"",
-                recipeCategory = binding.editRecipeCategoryLayout.editText?.text?.toString()?:""
+                recipeCategory = binding.editRecipeCategoryLayout.editText?.text?.toString()?:"",
+                recipeImage = if(imageUri=="".toUri()){
+                    recipe.recipeImage
+                }else{
+                    imageUri.toString()
+                }
         )
         Log.e("WHAT CATEGORY NEWRECIPE","${newRecipe.recipeCategory}")
         Repository.recipesList.add(newRecipe)
         Repository.recipesListFilterForCategoryClick.add(newRecipe)
         var mainActivity = activity as MainActivity
         mainActivity.addRecipe(newRecipe)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE){
+            intent?.run{
+                imageUri = data ?: "".toUri()
+
+                // this is the special bit, here you're grabbing any flags that were previously
+                // attached to the intent, then you're using a bitwise `and` and a bitwise `or`
+                // (these are low level linux operations in regards to permissions) to get the
+                // permissions to hold on to access to the URI forever
+                val takeFlags = flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+
+                // now you need to let Android know you want these permissions forever
+                requireActivity().contentResolver.takePersistableUriPermission(imageUri, takeFlags)
+
+                val addImage = dialog?.findViewById<ImageView>(R.id.edit_add_image)
+                addImage?.setImageURI(imageUri)
+            }
+
+
+        }
     }
 }
