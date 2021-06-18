@@ -140,6 +140,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_ingredients_button"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        tools:srcCompat="@tools:sample/backgrounds/scenic"
+        android:src="@drawable/ic_default_image"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.foodmanchu
 
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
@@ -14,6 +16,14 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
         lateinit var mainActivity: MainActivity
         val recipe = Repository.listOfRecipeForDetail[0]
 
+        val defaultImageId = R.drawable.ic_default_image// r.mipmap.yourmipmap; R.drawable.yourdrawable
+        val uriDefaultImage = Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(resources.getResourcePackageName(defaultImageId))
+                .appendPath(resources.getResourceTypeName(defaultImageId))
+                .appendPath(resources.getResourceEntryName(defaultImageId))
+                .build()
+
         binding.apply {
             recipeDetailsNameText.text = recipe.recipeName
             recipeDetailsDescriptionText.text = recipe.description
@@ -21,7 +31,12 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
             recipeDetailsInstructionsText.text =recipe.cookingInstructions
             recipeDetailsPreptimeText.text = recipe.prepTime
             recipesDetailsCategoryText.text = recipe.recipeCategory
-            detailsImage.setImageURI(recipe.recipeImage.toUri())
+            detailsImage.setImageURI(
+                    if(recipe.recipeImage == ""){
+                        uriDefaultImage
+                    }else{
+                        recipe.recipeImage.toUri()
+                    })
             detailsEditRecipeButton.setOnClickListener {
                 Repository.recipeToEdit = recipe
                 EditRecipeDialog.create{
