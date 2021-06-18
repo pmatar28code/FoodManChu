@@ -131,7 +131,11 @@ class EditRecipeDialog(): DialogFragment() {
         ingredientsSelectedString = ingredientsSelectedString.dropLast(1)
         var newRecipe = Recipes(
                 recipeName = binding.editRecipeNameEditText.text?.toString()?:"",
-                ingredientsToUse = ingredientsSelectedString,
+                ingredientsToUse = if(ingredientsSelectedString ==""){
+                    binding.editTextView.text.toString()
+                }else{
+                    ingredientsSelectedString
+                },
                 description = binding.editRecipeDescriptionEditText.text?.toString()?:"",
                 cookingInstructions = binding.editRecipeInstructionsEditText.text?.toString()?:"",
                 prepTime = binding.editRecipePrepTimeEditText.text?.toString()?:"",
