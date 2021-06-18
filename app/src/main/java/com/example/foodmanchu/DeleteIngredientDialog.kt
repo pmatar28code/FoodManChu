@@ -1,5 +1,6 @@
 package com.example.foodmanchu
 
+import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
@@ -18,9 +19,11 @@ class DeleteIngredientDialog(): DialogFragment() {
             }
         }
     }
+    lateinit var currentRecipe:Recipes
     private var listener : () -> Unit = {}
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        lateinit var theIngredientToDeleteFromAll:String
         val inflater = LayoutInflater.from(requireContext())
         val binding = FragmentDeleteIngredientBinding.inflate(inflater)
 
@@ -48,6 +51,7 @@ class DeleteIngredientDialog(): DialogFragment() {
                             Repository.IngredientsList.remove(ingredient)
                             index = 0
                             listener()
+                            theIngredientToDeleteFromAll = binding.ingredientNameSelectionLayout.editText?.text.toString()
                             break
                         }
                     }
@@ -56,6 +60,8 @@ class DeleteIngredientDialog(): DialogFragment() {
                         //Repository.IngredientsList. removeAt(index)
                         val mainActivity = activity as MainActivity
                         mainActivity.deleteIngredient(binding.ingredientNameSelectionLayout.editText?.text.toString())
+                        removeDeletedIngredientFromAllRecipesThatIncludedIt(theIngredientToDeleteFromAll)
+
                     }
 
                 }
@@ -63,5 +69,25 @@ class DeleteIngredientDialog(): DialogFragment() {
                     //ingredientsToDelete.clear()
                 }
                 .create()
+    }
+
+    fun removeDeletedIngredientFromAllRecipesThatIncludedIt(theIngredientToDeleteFromAll:String){
+        var tempRecipesList = Repository.recipesList.map { it }.toMutableList()
+        for(recipe in Repository.recipesList){
+            currentRecipe = recipe
+            if(recipe.ingredientsToUse.contains(theIngredientToDeleteFromAll)){
+                tempRecipesList.remove(recipe)
+                val mainActivity = activity as MainActivity
+                mainActivity.deleteRecipe(recipe.recipeName)
+                currentRecipe.ingredientsToUse = currentRecipe.ingredientsToUse.replace(theIngredientToDeleteFromAll,"*")
+                Log.e("DELETED INGREDIENT FREC","${currentRecipe.ingredientsToUse}")
+                tempRecipesList.add(currentRecipe)
+                mainActivity.addRecipe(currentRecipe)
+            }
+        }
+        Repository.recipesList.clear()
+        Repository.recipesList = tempRecipesList.map { it }.toMutableList()
+        Repository.recipesListFilterForCategoryClick.clear()
+        Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
     }
 }

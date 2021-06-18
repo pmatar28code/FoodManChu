@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Recipes(
     @PrimaryKey(autoGenerate = true)val key:Int = 0,
     @ColumnInfo(name = "recipeName") var recipeName:String,
-    @ColumnInfo(name = "ingredientsToUse") val ingredientsToUse:String,
+    @ColumnInfo(name = "ingredientsToUse") var ingredientsToUse:String,
     @ColumnInfo(name= "description") val description:String,
     @ColumnInfo(name = "cookingInstructions") val cookingInstructions:String,
     @ColumnInfo(name = "prepTime") val prepTime:String,
