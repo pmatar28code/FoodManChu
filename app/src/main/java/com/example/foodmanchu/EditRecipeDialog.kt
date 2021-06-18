@@ -24,6 +24,7 @@ class EditRecipeDialog(): DialogFragment() {
         }
         private const val PICK_IMAGE = 101
     }
+    lateinit var newRecipeForDetails:Recipes
     private var imageUri ="".toUri()
     private var listener : () -> Unit = {}
     lateinit var recipe:Recipes
@@ -74,6 +75,8 @@ class EditRecipeDialog(): DialogFragment() {
                     Repository.recipesListFilterForCategoryClick.remove(recipe)
                     mainActivity.deleteRecipe(recipe.recipeName)
                     addRecipeToListAndDataBase(binding)
+                    Repository.listOfRecipeForDetail.clear()
+                    Repository.listOfRecipeForDetail.add(newRecipeForDetails)
                     listener()
                 }
                 .setNegativeButton("Cancel",null)
@@ -151,6 +154,7 @@ class EditRecipeDialog(): DialogFragment() {
         Repository.recipesListFilterForCategoryClick.add(newRecipe)
         var mainActivity = activity as MainActivity
         mainActivity.addRecipe(newRecipe)
+        newRecipeForDetails = newRecipe
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

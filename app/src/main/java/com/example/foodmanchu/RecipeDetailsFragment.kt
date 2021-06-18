@@ -21,6 +21,19 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
             recipeDetailsPreptimeText.text = recipe.prepTime
             recipesDetailsCategoryText.text = recipe.recipeCategory
             detailsImage.setImageURI(recipe.recipeImage.toUri())
+            detailsEditRecipeButton.setOnClickListener {
+                Repository.recipeToEdit = recipe
+                EditRecipeDialog.create{
+                    var mainActivity = activity as MainActivity
+                    mainActivity.swapFragments(RecipeDetailsFragment())
+                }.show(parentFragmentManager,"edit dialog")
+            }
+            detailsDuplicateRecipeButton.setOnClickListener {
+
+            }
+            detailsDeleteRecipeButton.setOnClickListener {
+
+            }
         }
     }
 }
