@@ -1,5 +1,7 @@
 package com.example.foodmanchu
 
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         setContentView(binding.root)
 
         swapFragments(CategoriesFragment())
+        getDefaultImageUri()
 
         database = Room.databaseBuilder(
                 applicationContext,
@@ -126,6 +129,18 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
                 }
             }
         }
+    }
+
+    fun getDefaultImageUri(): Uri {
+        val defaultImageId = R.drawable.ic_default_image// r.mipmap.yourmipmap; R.drawable.yourdrawable
+        val uriDefaultImage = Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(resources.getResourcePackageName(defaultImageId))
+                .appendPath(resources.getResourceTypeName(defaultImageId))
+                .appendPath(resources.getResourceEntryName(defaultImageId))
+                .build()
+        Repository.repoDefaultImageUri = uriDefaultImage
+        return uriDefaultImage
     }
 
     override fun addIngredient(ingredient: Ingredients) {

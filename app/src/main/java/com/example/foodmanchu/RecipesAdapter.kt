@@ -50,7 +50,13 @@ class RecipesAdapter(
         fun onBind(recipe: Recipes){
             binding.apply {
                 recipeNameText.text = recipe.recipeName
-                itemRecipeImage.setImageURI(recipe.recipeImage.toUri())
+                itemRecipeImage.setImageURI(
+                        if(recipe.recipeImage ==""){
+                            Repository.repoDefaultImageUri
+                        }else{
+                            recipe.recipeImage.toUri()
+                        })
+
                 itemRecipeImage.setOnClickListener {
                     onCLickForDetails(recipe)
                 }

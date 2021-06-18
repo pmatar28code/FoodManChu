@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
+import androidx.core.net.toUri
 
 object Repository {
+    var repoDefaultImageUri ="".toUri()
 
     var recipeToEdit = Recipes(
             recipeName = "",
