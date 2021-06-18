@@ -35,6 +35,8 @@ class RecipesAdapter(
 
     override fun onBindViewHolder(holder: RecipesViewHolder, position: Int) {
         holder.onBind(getItem(position))
+        holder.itemView.setOnClickListener { onCLickForDetails(getItem(position)) }
+
 
     }
 
@@ -49,6 +51,9 @@ class RecipesAdapter(
             binding.apply {
                 recipeNameText.text = recipe.recipeName
                 itemRecipeImage.setImageURI(recipe.recipeImage.toUri())
+                itemRecipeImage.setOnClickListener {
+                    onCLickForDetails(recipe)
+                }
                 recipeNameText.setOnClickListener {
                     onCLickForDetails(recipe)
                 }
