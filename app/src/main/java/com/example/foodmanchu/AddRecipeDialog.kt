@@ -93,6 +93,9 @@ class AddRecipeDialog:DialogFragment() {
                 }
             }
         }
+
+        builder.setNegativeButton("Cancel",null)
+
         dialog = builder.create()
         dialog.show()
     }

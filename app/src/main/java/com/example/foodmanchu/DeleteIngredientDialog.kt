@@ -65,9 +65,7 @@ class DeleteIngredientDialog(): DialogFragment() {
                     }
 
                 }
-                .setNegativeButton("Cancel") { _,_ ->
-                    //ingredientsToDelete.clear()
-                }
+                .setNegativeButton("Cancel",null)
                 .create()
     }
 
