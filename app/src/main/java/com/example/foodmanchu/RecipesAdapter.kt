@@ -2,7 +2,6 @@ package com.example.foodmanchu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -36,8 +35,6 @@ class RecipesAdapter(
     override fun onBindViewHolder(holder: RecipesViewHolder, position: Int) {
         holder.onBind(getItem(position))
         holder.itemView.setOnClickListener { onCLickForDetails(getItem(position)) }
-
-
     }
 
     class RecipesViewHolder(
@@ -72,7 +69,6 @@ class RecipesAdapter(
                 editRecipeImage.setOnClickListener {
                     onClickForEdit(recipe)
                 }
-
             }
         }
     }

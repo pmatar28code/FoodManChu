@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -49,13 +48,6 @@ class EditRecipeDialog(): DialogFragment() {
                 recipe.recipeImage.toUri()
             })
 
-            //val ingredientsAvailable = Repository.IngredientsList
-           // val adapterIngredients =
-                 //   ArrayAdapter(requireContext(), R.layout.ingredients_listing, ingredientsAvailable)
-
-            //(editRecipeIngredientsLayout.editText as? AutoCompleteTextView)?.setAdapter(adapterIngredients)
-
-
             val categoriesAvailable = Repository.categoryList
             val adapterCategories =
                     ArrayAdapter(requireContext(), R.layout.ingredients_listing, categoriesAvailable)
@@ -89,12 +81,11 @@ class EditRecipeDialog(): DialogFragment() {
     private fun showDialog(){
         Repository.listOfSelectedIngredientsForRecipe.clear()
         lateinit var dialog: AlertDialog
-        var arrayIngredients:Array<String> = Repository.IngredientsList.map { it.ingredientName }.toTypedArray()
-        var mutableListFalse = mutableListOf<Boolean>()
+        val arrayIngredients:Array<String> = Repository.IngredientsList.map { it.ingredientName }.toTypedArray()
+        val mutableListFalse = mutableListOf<Boolean>()
 
-        var recipe = Repository.recipeToEdit
-        var listOfIngredientsS = recipe.ingredientsToUse.split(",")
-        Log.e("ListOfIngredientsSSS","$listOfIngredientsS")
+        val recipe = Repository.recipeToEdit
+        val listOfIngredientsS = recipe.ingredientsToUse.split(",")
         for(ingredient in Repository.IngredientsList){
             if(listOfIngredientsS.contains(ingredient.ingredientName) || listOfIngredientsS.contains(ingredient.ingredientName+" ,") ||  listOfIngredientsS.contains(" "+ingredient.ingredientName)){
                 mutableListFalse.add(true)
@@ -103,16 +94,12 @@ class EditRecipeDialog(): DialogFragment() {
             }
         }
 
-        var arrayChecked:BooleanArray = mutableListFalse.map { it }.toBooleanArray()
+        val arrayChecked:BooleanArray = mutableListFalse.map { it }.toBooleanArray()
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Choose your ingredients.")
 
         builder.setMultiChoiceItems(arrayIngredients, arrayChecked) { dialog, which, isChecked->
             arrayChecked[which] = isChecked
-
-            //val ingredient = arrayIngredients[which]
-            // Display the clicked item text
-            //Log.e
         }
 
         builder.setPositiveButton("Add") { _, _ ->
@@ -138,7 +125,7 @@ class EditRecipeDialog(): DialogFragment() {
             ingredientsSelectedString += "$ingredient,"
         }
         ingredientsSelectedString = ingredientsSelectedString.dropLast(1)
-        var newRecipe = Recipes(
+        val newRecipe = Recipes(
                 recipeName = binding.editRecipeNameEditText.text?.toString()?:"",
                 ingredientsToUse = if(ingredientsSelectedString ==""){
                     binding.editTextView.text.toString()
@@ -155,10 +142,9 @@ class EditRecipeDialog(): DialogFragment() {
                     imageUri.toString()
                 }
         )
-        Log.e("WHAT CATEGORY NEWRECIPE","${newRecipe.recipeCategory}")
         Repository.recipesList.add(newRecipe)
         Repository.recipesListFilterForCategoryClick.add(newRecipe)
-        var mainActivity = activity as MainActivity
+        val mainActivity = activity as MainActivity
         mainActivity.addRecipe(newRecipe)
         newRecipeForDetails = newRecipe
     }
@@ -168,16 +154,8 @@ class EditRecipeDialog(): DialogFragment() {
         if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE){
             intent?.run{
                 imageUri = data ?: "".toUri()
-
-                // this is the special bit, here you're grabbing any flags that were previously
-                // attached to the intent, then you're using a bitwise `and` and a bitwise `or`
-                // (these are low level linux operations in regards to permissions) to get the
-                // permissions to hold on to access to the URI forever
                 val takeFlags = flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-
-                // now you need to let Android know you want these permissions forever
                 requireActivity().contentResolver.takePersistableUriPermission(imageUri, takeFlags)
-
                 val addImage = dialog?.findViewById<ImageView>(R.id.edit_add_image)
                 addImage?.setImageURI(imageUri)
             }

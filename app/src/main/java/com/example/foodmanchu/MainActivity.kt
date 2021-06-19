@@ -3,9 +3,8 @@ package com.example.foodmanchu
 import android.content.ContentResolver
 import android.net.Uri
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.example.foodmanchu.databinding.ActivityMainBinding

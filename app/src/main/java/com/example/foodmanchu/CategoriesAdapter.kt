@@ -1,9 +1,7 @@
 package com.example.foodmanchu
 
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +30,7 @@ class CategoriesAdapter(
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         holder.onBind(getItem(position))
-        var item = getItem(position)
+        holder.itemView.setOnClickListener { onClick(getItem(position)) }
     }
 
     class CategoriesViewHolder(

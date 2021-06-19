@@ -14,7 +14,7 @@ class CategoriesFragment: Fragment(R.layout.categories_fragment) {
         super.onViewCreated(view, savedInstanceState)
         val binding = CategoriesFragmentBinding.bind(view)
 
-        var mainActivity = activity as MainActivity
+        val mainActivity = activity as MainActivity
 
         categoriesAdapter = CategoriesAdapter(onClick = {category ->
             Repository.filterRecipesByCategoryForCategoryClick(requireContext(),category,mainActivity)

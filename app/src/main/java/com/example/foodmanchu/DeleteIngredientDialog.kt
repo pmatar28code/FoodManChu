@@ -1,9 +1,7 @@
 package com.example.foodmanchu
 
-import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -27,17 +25,15 @@ class DeleteIngredientDialog(): DialogFragment() {
         val inflater = LayoutInflater.from(requireContext())
         val binding = FragmentDeleteIngredientBinding.inflate(inflater)
 
-        var ingredientsToDelete = mutableListOf<String>()
-        var defaultIngredientListString = Repository.defaultIngredientsList.map { it.ingredientName }
-        var ingredientsListString = Repository.IngredientsList.map { it.ingredientName }
+        val ingredientsToDelete = mutableListOf<String>()
+        val defaultIngredientListString = Repository.defaultIngredientsList.map { it.ingredientName }
+        val ingredientsListString = Repository.IngredientsList.map { it.ingredientName }
 
         for(ingredient in ingredientsListString){
             if(!defaultIngredientListString.contains(ingredient)){
                     ingredientsToDelete.add(ingredient)
             }
         }
-        Log.e("FINAL LIST DROPDOWS","$ingredientsToDelete")
-
 
         val adapter = ArrayAdapter(requireContext(), R.layout.ingredients_listing, ingredientsToDelete)
         (binding.ingredientNameSelectionLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
@@ -56,8 +52,6 @@ class DeleteIngredientDialog(): DialogFragment() {
                         }
                     }
                     if(index !=null) {
-                        //Log.e("INDEX","$index")
-                        //Repository.IngredientsList. removeAt(index)
                         val mainActivity = activity as MainActivity
                         mainActivity.deleteIngredient(binding.ingredientNameSelectionLayout.editText?.text.toString())
                         removeDeletedIngredientFromAllRecipesThatIncludedIt(theIngredientToDeleteFromAll)
@@ -70,7 +64,7 @@ class DeleteIngredientDialog(): DialogFragment() {
     }
 
     fun removeDeletedIngredientFromAllRecipesThatIncludedIt(theIngredientToDeleteFromAll:String){
-        var tempRecipesList = Repository.recipesList.map { it }.toMutableList()
+        val tempRecipesList = Repository.recipesList.map { it }.toMutableList()
         for(recipe in Repository.recipesList){
             currentRecipe = recipe
             if(recipe.ingredientsToUse.contains(theIngredientToDeleteFromAll)){
@@ -78,7 +72,6 @@ class DeleteIngredientDialog(): DialogFragment() {
                 val mainActivity = activity as MainActivity
                 mainActivity.deleteRecipe(recipe.recipeName)
                 currentRecipe.ingredientsToUse = currentRecipe.ingredientsToUse.replace(theIngredientToDeleteFromAll,"*")
-                Log.e("DELETED INGREDIENT FREC","${currentRecipe.ingredientsToUse}")
                 tempRecipesList.add(currentRecipe)
                 mainActivity.addRecipe(currentRecipe)
             }

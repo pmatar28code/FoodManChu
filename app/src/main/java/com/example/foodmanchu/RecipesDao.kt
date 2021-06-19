@@ -27,6 +27,6 @@ interface RecipesDao {
     @Query("SELECT * FROM Recipes WHERE recipeCategory LIKE '%' || :search || '%'  ")
     fun findCategoryFilter(search:String):MutableList<Recipes>
 
-    @Query("SELECT * FROM Recipes WHERE prepTime LIKE '%' || :search || '%' ")
+    @Query("SELECT * FROM Recipes WHERE prepTime LIKE :search || '%' ")
     fun findPrepTimeFilter(search:String):MutableList<Recipes>
 }
