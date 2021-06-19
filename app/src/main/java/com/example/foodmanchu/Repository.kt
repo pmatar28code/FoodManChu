@@ -1,6 +1,9 @@
 package com.example.foodmanchu
 
+import android.app.Application
+import android.content.ContentResolver
 import android.content.Context
+import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
@@ -175,7 +178,7 @@ object Repository {
             cookingInstructions = "To assemble, spread 1 1/2 cups of meat sauce in the bottom of a 9x13-inch baking dish. Arrange 6 noodles lengthwise over meat sauce. Spread with one half of the ricotta cheese mixture. Top with a third of mozzarella cheese slices. Spoon 1 1/2 cups meat sauce over mozzarella, and sprinkle with 1/4 cup Parmesan cheese. Repeat layers, and top with remaining mozzarella and Parmesan cheese. Cover with foil: to prevent sticking, either spray foil with cooking spray, or make sure the foil does not touch the cheese Bake in preheated oven for 25 minutes. Remove foil, and bake an additional 25 minutes. Cool for 15 minutes before serving.",
             prepTime = "45 minutes",
             recipeCategory = "Meat",
-            recipeImage = ""
+            recipeImage = getImageUriForDefaultRecipes(R.drawable.lasagna).toString()
         ),
         Recipes(
             recipeName = "scrambled eggs",
@@ -184,7 +187,16 @@ object Repository {
             cookingInstructions = "mix eggs, add salt, cook them at low heat",
             prepTime = "4 minutes",
             recipeCategory = "Keto",
-            recipeImage = ""
+            recipeImage = getImageUriForDefaultRecipes(R.drawable.scrambledeggs).toString()
+        ),
+        Recipes(
+            recipeName = "bacon and eggs",
+            ingredientsToUse = "egg,bacon",
+            description = "scrambled eggs with bacon for breakfast",
+            cookingInstructions = "Cook bacon untill crunchy, mix eggs, add just a bit of salt, cook them at low heat, serve.",
+            prepTime = "10 minutes",
+            recipeCategory = "Paleo",
+            recipeImage = getImageUriForDefaultRecipes(R.drawable.baconandeggs).toString()
         )
     )
 
@@ -269,6 +281,15 @@ object Repository {
         }else{
             Toast.makeText(context,"There are no recipes in this category: $category",Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun getImageUriForDefaultRecipes(imageId:Int): Uri {
+        return Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(Application().resources.getResourcePackageName(imageId))
+                .appendPath(Application().resources.getResourceTypeName(imageId))
+                .appendPath(Application().resources.getResourceEntryName(imageId))
+                .build()
     }
 }
 
