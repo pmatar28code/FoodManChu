@@ -168,15 +168,24 @@ object Repository {
         )
 
     var defaultRecipesList = mutableListOf<Recipes>(
-            Recipes(
-                    recipeName = "Lasagna",
-                    ingredientsToUse = "garlic,salt,meat,tomato,white_cheese",
-                    description = "delicious lasagna",
-                    cookingInstructions = "To assemble, spread 1 1/2 cups of meat sauce in the bottom of a 9x13-inch baking dish. Arrange 6 noodles lengthwise over meat sauce. Spread with one half of the ricotta cheese mixture. Top with a third of mozzarella cheese slices. Spoon 1 1/2 cups meat sauce over mozzarella, and sprinkle with 1/4 cup Parmesan cheese. Repeat layers, and top with remaining mozzarella and Parmesan cheese. Cover with foil: to prevent sticking, either spray foil with cooking spray, or make sure the foil does not touch the cheese Bake in preheated oven for 25 minutes. Remove foil, and bake an additional 25 minutes. Cool for 15 minutes before serving.",
-                    prepTime = "45 minutes",
-                    recipeCategory = "Meat",
-                    recipeImage = ""
-            )
+        Recipes(
+            recipeName = "Lasagna",
+            ingredientsToUse = "garlic,salt,meat,tomato,white_cheese",
+            description = "delicious lasagna",
+            cookingInstructions = "To assemble, spread 1 1/2 cups of meat sauce in the bottom of a 9x13-inch baking dish. Arrange 6 noodles lengthwise over meat sauce. Spread with one half of the ricotta cheese mixture. Top with a third of mozzarella cheese slices. Spoon 1 1/2 cups meat sauce over mozzarella, and sprinkle with 1/4 cup Parmesan cheese. Repeat layers, and top with remaining mozzarella and Parmesan cheese. Cover with foil: to prevent sticking, either spray foil with cooking spray, or make sure the foil does not touch the cheese Bake in preheated oven for 25 minutes. Remove foil, and bake an additional 25 minutes. Cool for 15 minutes before serving.",
+            prepTime = "45 minutes",
+            recipeCategory = "Meat",
+            recipeImage = ""
+        ),
+        Recipes(
+            recipeName = "scrambled eggs",
+            ingredientsToUse = "egg,salt",
+            description = "scrambled eggs for breakfast",
+            cookingInstructions = "mix eggs, add salt, cook them at low heat",
+            prepTime = "4 minutes",
+            recipeCategory = "Keto",
+            recipeImage = ""
+        )
     )
 
     fun checkIfDatabaseForIngredientsIsEmpty(database: Database){
