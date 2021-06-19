@@ -29,12 +29,13 @@
         android:hint="Select Ingredient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/delete_title_text">
+        app:layout_constraintTop_toBottomOf="@id/delete_title_text"
+        android:textAppearance="?android:attr/textAppearanceLarge">
 
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:inputType="none"/>
 
 
     </com.google.android.material.textfield.TextInputLayout>
