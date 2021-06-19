@@ -3,4 +3,30 @@
     <string name="fragment_delete_title_text">Please select ingredient to delete from the dropdown menu</string>
     <string name="instructions_recipe">To assemble, spread 1 1/2 cups of meat sauce in the bottom of a 9x13-inch baking dish. Arrange 6 noodles lengthwise over meat sauce. Spread with one half of the ricotta cheese mixture. Top with a third of mozzarella cheese slices. Spoon 1 1/2 cups meat sauce over mozzarella, and sprinkle with 1/4 cup Parmesan cheese. Repeat layers, and top with remaining mozzarella and Parmesan cheese. Cover with foil: to prevent sticking, either spray foil with cooking spray, or make sure the foil does not touch the cheese"
                     Bake in preheated oven for 25 minutes. Remove foil, and bake an additional 25 minutes. Cool for 15 minutes before serving.</string>
+    <string name="categories_title_label">Categories</string>
+    <string name="ingredient_name_hint">Ingredient Name</string>
+    <string name="add_ingredient_title_label">Add Ingredient</string>
+    <string name="recipe_description_hint">Recipe Description</string>
+    <string name="create_your_recipe_label">Create your recipe</string>
+    <string name="recipe_name_hint">Recipe Name</string>
+    <string name="recipe_instructions_hint">Recipe Instructions</string>
+    <string name="recipe_preptime_hint">Recipe Preptime</string>
+    <string name="recipe_category_hint">Recipe Category</string>
+    <string name="ingredients_button_label">Ingredients</string>
+    <string name="choose_image_label">Choose image</string>
+    <string name="custom_ingredient_to_remove_label">Custom Ingredient to remove</string>
+    <string name="select_ingredient_hint">Select Ingredient</string>
+    <string name="edit_recipe_label">Edit Recipe</string>
+    <string name="recipe_name_hint_edit">Recipe Name</string>
+    <string name="recipe_description_hint_edit">Recipe Description</string>
+    <string name="recipe_instructions_hint_edit">Recipe Instructions</string>
+    <string name="recipe_preptime_hint_edit">Recipe Preptime</string>
+    <string name="recipe_category_hint_edit">Recipe Category</string>
+    <string name="ingredients_hint_edit">Ingredients</string>
+    <string name="choose_image_label_edit">Choose image</string>
+    <string name="search_label">Search</string>
+    <string name="search_recipe_label">Search recipe</string>
+    <string name="ingredients_label">Ingredients</string>
+    <string name="select_deselect_label">Select/Deselect</string>
+    <string name="recipes_label">Recipes</string>
 </resources>

@@ -9,7 +9,7 @@
         android:id="@+id/categorie_text"
         android:layout_width="166dp"
         android:layout_height="35dp"
-        android:text="TextView"
+        android:text=""
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/category_image"

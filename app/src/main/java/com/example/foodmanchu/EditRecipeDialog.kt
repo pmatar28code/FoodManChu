@@ -119,7 +119,7 @@ class EditRecipeDialog(): DialogFragment() {
         dialog.show()
     }
 
-    fun addRecipeToListAndDataBase(binding: FragmentEditRecipeBinding){
+    private fun addRecipeToListAndDataBase(binding: FragmentEditRecipeBinding){
         var ingredientsSelectedString = ""
         for(ingredient in Repository.listOfSelectedIngredientsForRecipe){
             ingredientsSelectedString += "$ingredient,"
@@ -159,8 +159,6 @@ class EditRecipeDialog(): DialogFragment() {
                 val addImage = dialog?.findViewById<ImageView>(R.id.edit_add_image)
                 addImage?.setImageURI(imageUri)
             }
-
-
         }
     }
 }

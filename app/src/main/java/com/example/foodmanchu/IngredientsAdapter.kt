@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodmanchu.databinding.ItemIngredientsBinding
 
-class IngredientsAdapter(): ListAdapter<Ingredients,IngredientsAdapter.IngredientsViewHolder>(diff) {
+class IngredientsAdapter: ListAdapter<Ingredients,IngredientsAdapter.IngredientsViewHolder>(diff) {
     companion object{
         val diff = object : DiffUtil.ItemCallback<Ingredients>(){
             override fun areItemsTheSame(oldItem: Ingredients, newItem: Ingredients): Boolean {

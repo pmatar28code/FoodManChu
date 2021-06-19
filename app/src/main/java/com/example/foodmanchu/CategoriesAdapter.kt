@@ -56,10 +56,10 @@ class CategoriesAdapter(
                     "Paleo" -> {
                         categoryImage.setImageResource(R.drawable.paleo)
                     }
-                    "Keto" -> {
+                    else -> {
                         categoryImage.setImageResource(R.drawable.keto)
                     }
-                    else -> {}
+
                 }
             }
         }

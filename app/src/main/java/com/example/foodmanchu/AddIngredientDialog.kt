@@ -33,5 +33,4 @@ class AddIngredientDialog: DialogFragment() {
         .setNegativeButton("Cancel",null)
         .create()
     }
-
 }

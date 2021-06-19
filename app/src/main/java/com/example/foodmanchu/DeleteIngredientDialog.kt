@@ -63,7 +63,7 @@ class DeleteIngredientDialog(): DialogFragment() {
                 .create()
     }
 
-    fun removeDeletedIngredientFromAllRecipesThatIncludedIt(theIngredientToDeleteFromAll:String){
+    private fun removeDeletedIngredientFromAllRecipesThatIncludedIt(theIngredientToDeleteFromAll:String){
         val tempRecipesList = Repository.recipesList.map { it }.toMutableList()
         for(recipe in Repository.recipesList){
             currentRecipe = recipe
