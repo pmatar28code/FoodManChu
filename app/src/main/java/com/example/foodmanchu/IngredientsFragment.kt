@@ -34,6 +34,5 @@ class IngredientsFragment:Fragment(R.layout.ingredients_fragment) {
                 }.show(parentFragmentManager,"Show Delete Ingredient")
             }
         }
-
     }
 }

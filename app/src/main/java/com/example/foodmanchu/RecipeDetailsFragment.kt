@@ -16,7 +16,7 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
         lateinit var mainActivity: MainActivity
         val recipe = Repository.listOfRecipeForDetail[0]
 
-        val defaultImageId = R.drawable.ic_default_image// r.mipmap.yourmipmap; R.drawable.yourdrawable
+        val defaultImageId = R.drawable.ic_default_image
         val uriDefaultImage = Uri.Builder()
                 .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
                 .authority(resources.getResourcePackageName(defaultImageId))

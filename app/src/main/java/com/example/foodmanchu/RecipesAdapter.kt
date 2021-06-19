@@ -10,9 +10,9 @@ import com.example.foodmanchu.databinding.ItemRecipesBinding
 
 class RecipesAdapter(
         val onCLickForDetails:(Recipes) -> Unit,
-        val onClickForDuplicate:(Recipes) -> Unit,
-        val onClickForDelete:(Recipes) -> Unit,
-        val onClickForEdit:(Recipes) -> Unit
+        private val onClickForDuplicate:(Recipes) -> Unit,
+        private val onClickForDelete:(Recipes) -> Unit,
+        private val onClickForEdit:(Recipes) -> Unit
 ): ListAdapter<Recipes,RecipesAdapter.RecipesViewHolder>(diff) {
     companion object{
         val diff = object : DiffUtil.ItemCallback<Recipes>(){

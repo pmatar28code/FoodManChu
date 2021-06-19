@@ -19,8 +19,8 @@ class SearchFragment : Fragment(R.layout.fragment_search){
             (searchFilterLayout.editText as? AutoCompleteTextView)?.setAdapter(adapterFilters)
 
             searchButton.setOnClickListener {
-                var searchWord = searchEditText.text?.toString()?:""
-                var searchFilter = searchFilterLayout.editText?.text?.toString()?:""
+                val searchWord = searchEditText.text?.toString()?:""
+                val searchFilter = searchFilterLayout.editText?.text?.toString()?:""
 
                 val mainActivity = activity as MainActivity
                 mainActivity.searchBy(searchFilter,searchWord)

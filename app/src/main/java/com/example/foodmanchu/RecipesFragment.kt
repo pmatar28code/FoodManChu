@@ -16,10 +16,10 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
         recipesAdapter = RecipesAdapter({ recipeDetails ->
             Repository.listOfRecipeForDetail.clear()
             Repository.listOfRecipeForDetail.add(recipeDetails)
-            var mainActivity = activity as MainActivity
+            val mainActivity = activity as MainActivity
             mainActivity.swapFragments(RecipeDetailsFragment())
         },{recipeDuplicate ->
-            var duplicateRecipe = Recipes(
+            val duplicateRecipe = Recipes(
                     recipeName = recipeDuplicate.recipeName +"_copy"+Date().time.toString(),
                     recipeCategory = recipeDuplicate.recipeCategory,
                     description = recipeDuplicate.description,
@@ -32,7 +32,7 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
             recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
             recipesAdapter.notifyDataSetChanged()
-            var mainActivity = activity as MainActivity
+            val mainActivity = activity as MainActivity
             mainActivity.addRecipe(duplicateRecipe)
 
         },{recipeDelete ->
@@ -40,7 +40,7 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
             recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
             recipesAdapter.notifyDataSetChanged()
-            var mainActivity = activity as MainActivity
+            val mainActivity = activity as MainActivity
             mainActivity.deleteRecipe(recipeDelete.recipeName)
         },{recipeEdit ->
             Repository.recipeToEdit = recipeEdit

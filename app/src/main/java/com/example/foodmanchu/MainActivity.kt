@@ -130,8 +130,8 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         }
     }
 
-    fun getDefaultImageUri(): Uri {
-        val defaultImageId = R.drawable.ic_default_image// r.mipmap.yourmipmap; R.drawable.yourdrawable
+    private fun getDefaultImageUri(): Uri {
+        val defaultImageId = R.drawable.ic_default_image
         val uriDefaultImage = Uri.Builder()
                 .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
                 .authority(resources.getResourcePackageName(defaultImageId))

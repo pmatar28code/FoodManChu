@@ -190,7 +190,7 @@ object Repository {
 
     fun checkIfDatabaseForIngredientsIsEmpty(database: Database){
         AsyncTask.execute {
-            var testListIngredients = database.ingredientsDao().getAllIngredients()
+            val testListIngredients = database.ingredientsDao().getAllIngredients()
 
             if (testListIngredients.isEmpty()) {
                 Log.e("ServerEmpty", "so we are adding default ingredients to Database")
@@ -211,7 +211,7 @@ object Repository {
 
     fun checkIfDatabaseForRecipesIsEmpty(database: Database){
         AsyncTask.execute {
-            var testListRecipes = database.recipesDao().getAllRecipes()
+            val testListRecipes = database.recipesDao().getAllRecipes()
 
             if (testListRecipes.isEmpty()) {
                 Log.e("ServerEmpty", "so we are adding default Recipes to Database")
@@ -264,7 +264,7 @@ object Repository {
             }
         }
         if(recipesListFilterForCategoryClick.isNotEmpty()){
-            var activityMain = activity
+            val activityMain = activity
             activityMain.swapFragments(RecipesFragment())
         }else{
             Toast.makeText(context,"There are no recipes in this category: $category",Toast.LENGTH_SHORT).show()
