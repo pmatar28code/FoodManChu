@@ -3,6 +3,7 @@ package com.example.foodmanchu
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
@@ -284,12 +285,14 @@ object Repository {
     }
 
     private fun getImageUriForDefaultRecipes(imageId:Int): Uri {
-        return Uri.Builder()
+        val defaultImageId = imageId
+        val uriDefaultImage = Uri.Builder()
                 .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(Application().resources.getResourcePackageName(imageId))
-                .appendPath(Application().resources.getResourceTypeName(imageId))
-                .appendPath(Application().resources.getResourceEntryName(imageId))
+                .authority( MainActivity.context.resources.getResourcePackageName(defaultImageId))
+                .appendPath(MainActivity.context.resources.getResourceTypeName(defaultImageId))
+                .appendPath(MainActivity.context.resources.getResourceEntryName(defaultImageId))
                 .build()
+        return uriDefaultImage
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.foodmanchu
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.example.foodmanchu.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity(),DatabaseInterface {
     companion object {
         private const val DATABASE_NAME = "RDATABASE"
+        lateinit var context: Context
     }
 
     lateinit var database: Database
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        context = this
         swapFragments(CategoriesFragment())
         getDefaultImageUri()
 
