@@ -1,9 +1,7 @@
 package com.example.foodmanchu
 
-import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
-import android.content.res.Resources
 import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
