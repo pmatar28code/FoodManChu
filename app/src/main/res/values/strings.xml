@@ -31,4 +31,5 @@
     <string name="recipes_label">Recipes</string>
     <string name="select_filter_hint">Select Filter</string>
     <string name="clicking_on_recipe_will_take_you_to_details_label">Clicking on recipe will take you to details</string>
+    <string name="enter_text_for_search_hint">Enter text for search</string>
 </resources>
