@@ -43,8 +43,11 @@ class EditRecipeDialog(): DialogFragment() {
             editRecipeInstructionsEditText.setText(recipe.cookingInstructions)
             editRecipeDescriptionEditText.setText(recipe.description)
             editTextView.text = recipe.ingredientsToUse
-            editAddImage.setImageURI(recipe.recipeImage.toUri())
-
+            editAddImage.setImageURI(if(recipe.recipeImage == ""){
+                Repository.repoDefaultImageUri
+            }else{
+                recipe.recipeImage.toUri()
+            })
 
             //val ingredientsAvailable = Repository.IngredientsList
            // val adapterIngredients =

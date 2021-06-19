@@ -167,17 +167,17 @@ object Repository {
         Ingredients(ingredientName = "peperoni")
         )
 
-    //var defaultRecipesList = mutableListOf<Recipes>(
-            //Recipes(
-             //       recipeName = "scrambled Eggs",
-             //       ingredientsToUse = "egg,salt",
-             //       description = "delicious scrambled eggs",
-              //      cookingInstructions = "mix to eggs,add salt,cook for 3.5 minutes,enjoy",
-              //      prepTime = "4 minutes",
-              //      recipeCategory = "Keto",
-               //     recipeImage = ""
-            //)
-    //)
+    var defaultRecipesList = mutableListOf<Recipes>(
+            Recipes(
+                    recipeName = "scrambled Eggs",
+                    ingredientsToUse = "egg,salt",
+                    description = "delicious scrambled eggs",
+                    cookingInstructions = "mix to eggs,add salt,cook for 3.5 minutes,enjoy",
+                    prepTime = "4 minutes",
+                    recipeCategory = "Keto",
+                    recipeImage = ""
+            )
+    )
 
     fun checkIfDatabaseForIngredientsIsEmpty(database: Database){
         AsyncTask.execute {
@@ -206,13 +206,13 @@ object Repository {
 
             if (testListRecipes.isEmpty()) {
                 Log.e("ServerEmpty", "so we are adding default Recipes to Database")
-                //for (recipe in defaultRecipesList) {
-                   // AsyncTask.execute {
-                    //    database.recipesDao().addRecipe(recipe)
-                   // }
-                   // recipesList.add(recipe)
-                   // recipesListFilterForCategoryClick.add(recipe)
-               // }
+                for (recipe in defaultRecipesList) {
+                    AsyncTask.execute {
+                        database.recipesDao().addRecipe(recipe)
+                    }
+                    recipesList.add(recipe)
+                    recipesListFilterForCategoryClick.add(recipe)
+                }
 
             } else {
                 Log.e("ServerNotEmpty", "so we are copying Database Recipes to list")
