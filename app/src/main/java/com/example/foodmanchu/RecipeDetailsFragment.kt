@@ -67,7 +67,7 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
                 mainActivity.deleteRecipe(recipe.recipeName)
                 mainActivity.swapFragments(RecipesFragment())
             }
-            detailsBackImageAsButton.setOnClickListener {
+            detailsBackFab.setOnClickListener {
                 mainActivity = activity as MainActivity
                 mainActivity.swapFragments(RecipesFragment())
             }

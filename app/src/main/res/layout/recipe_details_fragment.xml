@@ -153,14 +153,16 @@
         app:layout_constraintTop_toTopOf="@+id/details_edit_recipe_button"
         app:srcCompat="@drawable/ic_remove" />
 
-    <ImageView
-        android:id="@+id/details_back_image_as_button"
-        android:layout_width="48dp"
-        android:layout_height="36dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/details_back_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/standard_margin"
         android:layout_marginTop="@dimen/standard_margin"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_back" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
