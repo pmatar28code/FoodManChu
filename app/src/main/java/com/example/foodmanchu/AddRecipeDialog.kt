@@ -29,6 +29,10 @@ class AddRecipeDialog:DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     val inflater = LayoutInflater.from(requireContext())
     binding = FragmentAddRecipeBinding.inflate(inflater)
+
+    Repository.listOfSelectedIngredientsForRecipe.clear()
+
+
     binding.addImage.setOnClickListener {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE)
