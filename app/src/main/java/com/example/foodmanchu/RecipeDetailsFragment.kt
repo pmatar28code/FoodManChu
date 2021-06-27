@@ -7,14 +7,22 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.foodmanchu.databinding.RecipeDetailsFragmentBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import java.util.*
 
 class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
+    companion object{
+        lateinit var databaseDetails:Database
+        lateinit var recipe:Recipes
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = RecipeDetailsFragmentBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         lateinit var mainActivity: MainActivity
-        val recipe = Repository.listOfRecipeForDetail[0]
+
+        recipe = Repository.listOfRecipeForDetail[0]
 
         val defaultImageId = R.drawable.ic_default_image
         val uriDefaultImage = Uri.Builder()
@@ -40,6 +48,7 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
             detailsEditRecipeButton.setOnClickListener {
                 Repository.recipeToEdit = recipe
                 EditRecipeDialog.create{
+
                     mainActivity = activity as MainActivity
                     mainActivity.swapFragments(RecipeDetailsFragment())
                 }.show(parentFragmentManager,"edit dialog")
@@ -54,17 +63,17 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
                         cookingInstructions = recipe.cookingInstructions,
                         recipeImage = recipe.recipeImage
                 )
-                Repository.recipesList.add(duplicateRecipe)
-                Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
+                CoroutineScope(IO).launch {
+                    addDuplicateRecipe(duplicateRecipe)
+                }
                 mainActivity = activity as MainActivity
-                mainActivity.addRecipe(duplicateRecipe)
                 mainActivity.swapFragments(RecipesFragment())
             }
             detailsDeleteRecipeButton.setOnClickListener {
-                Repository.recipesList.remove(recipe)
-                Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
+               CoroutineScope(IO).launch {
+                   deleteRecipe(recipe)
+               }
                 mainActivity = activity as MainActivity
-                mainActivity.deleteRecipe(recipe.recipeName)
                 mainActivity.swapFragments(RecipesFragment())
             }
             detailsBackFab.setOnClickListener {
@@ -72,5 +81,21 @@ class RecipeDetailsFragment: Fragment(R.layout.recipe_details_fragment) {
                 mainActivity.swapFragments(RecipesFragment())
             }
         }
+    }
+
+    suspend fun addDuplicateRecipe(duplicateRecipe:Recipes){
+        databaseDetails.recipesDao().addRecipe(duplicateRecipe)
+    }
+    suspend fun deleteRecipe(recipe:Recipes){
+        databaseDetails.recipesDao().deleteFromRecipes(recipe.key)
+    }
+
+    fun setRecipeVar(thisRecipe:Recipes){
+          recipe = thisRecipe
+    }
+
+    suspend fun getRecipeForDetails(key:Int):Recipes{
+        val xrecipe = databaseDetails.recipesDao().findRecipeByKey(key)
+        return xrecipe[0]
     }
 }

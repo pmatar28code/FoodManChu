@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         }
         R.id.menu_recipes -> {
             RecipesFragment.databaseOnRecipes = database
+            EditRecipeDialog.databaseEditRecipe = database
+            AddRecipeDialog.databaseAddRecipe = database
             Repository.recipesListFilterForCategoryClick.clear()
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
             swapFragments(RecipesFragment())
@@ -168,8 +170,8 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
     }
 
     override fun deleteRecipe(recipe: String) {
-        AsyncTask.execute {
-            database.recipesDao().deleteFromRecipes(recipe)
-        }
+     //   AsyncTask.execute {
+        //    database.recipesDao().deleteFromRecipes(recipe)
+       // }
     }
 }

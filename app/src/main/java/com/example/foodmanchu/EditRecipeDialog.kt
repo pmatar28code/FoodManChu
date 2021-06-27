@@ -13,6 +13,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import com.example.foodmanchu.databinding.FragmentEditRecipeBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EditRecipeDialog(): DialogFragment() {
     companion object{
@@ -22,8 +27,9 @@ class EditRecipeDialog(): DialogFragment() {
             }
         }
         private const val PICK_IMAGE = 101
+        lateinit var databaseEditRecipe:Database
     }
-    lateinit var newRecipeForDetails:Recipes
+
     private var imageUri ="".toUri()
     private var listener : () -> Unit = {}
     lateinit var recipe:Recipes
@@ -33,7 +39,6 @@ class EditRecipeDialog(): DialogFragment() {
         val inflater = LayoutInflater.from(requireContext())
         binding = FragmentEditRecipeBinding.inflate(inflater)
         recipe = Repository.recipeToEdit
-        mainActivity = activity as MainActivity
 
         binding.apply {
             editRecipeNameEditText.setText(recipe.recipeName)
@@ -66,13 +71,10 @@ class EditRecipeDialog(): DialogFragment() {
         return AlertDialog.Builder(requireContext())
                 .setView(binding.root)
                 .setPositiveButton("Apply"){_,_ ->
-                    Repository.recipesList.remove(recipe)
-                    Repository.recipesListFilterForCategoryClick.remove(recipe)
-                    mainActivity.deleteRecipe(recipe.recipeName)
-                    addRecipeToListAndDataBase(binding)
-                    Repository.listOfRecipeForDetail.clear()
-                    Repository.listOfRecipeForDetail.add(newRecipeForDetails)
-                    listener()
+                    CoroutineScope(IO).launch {
+                        removeRecipe()
+                        addRecipeToListAndDataBase(binding)
+                    }
                 }
                 .setNegativeButton("Cancel",null)
                 .create()
@@ -119,7 +121,7 @@ class EditRecipeDialog(): DialogFragment() {
         dialog.show()
     }
 
-    private fun addRecipeToListAndDataBase(binding: FragmentEditRecipeBinding){
+    private suspend fun addRecipeToListAndDataBase(binding: FragmentEditRecipeBinding){
         var ingredientsSelectedString = ""
         for(ingredient in Repository.listOfSelectedIngredientsForRecipe){
             ingredientsSelectedString += "$ingredient,"
@@ -142,11 +144,12 @@ class EditRecipeDialog(): DialogFragment() {
                     imageUri.toString()
                 }
         )
-        Repository.recipesList.add(newRecipe)
-        Repository.recipesListFilterForCategoryClick.add(newRecipe)
-        val mainActivity = activity as MainActivity
-        mainActivity.addRecipe(newRecipe)
-        newRecipeForDetails = newRecipe
+        addRecipe(newRecipe)
+        withContext(Main){
+            Repository.listOfRecipeForDetail.clear()
+            Repository.listOfRecipeForDetail.add(newRecipe)
+            listener()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -160,5 +163,13 @@ class EditRecipeDialog(): DialogFragment() {
                 addImage?.setImageURI(imageUri)
             }
         }
+    }
+
+    suspend fun removeRecipe(){
+        databaseEditRecipe.recipesDao().deleteFromRecipes(recipe.key)
+    }
+    suspend fun addRecipe(newRecipe:Recipes){
+        databaseEditRecipe.recipesDao().addRecipe(newRecipe)
+
     }
 }

@@ -5,29 +5,38 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodmanchu.databinding.RecipesFragmentBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class RecipesFragment: Fragment(R.layout.recipes_fragment) {
-    lateinit var recipesAdapter : RecipesAdapter
     companion object{
         lateinit var databaseOnRecipes:Database
-
     }
+    lateinit var recipesAdapter : RecipesAdapter
+    lateinit var duplicateRecipe:Recipes
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = RecipesFragmentBinding.bind(view)
         Log.e("Testing on Load frag","$databaseOnRecipes")
 
-        recipesAdapter = RecipesAdapter({ recipeDetails ->
+        recipesAdapter = RecipesAdapter(
+        { recipeDetails ->
+            RecipeDetailsFragment.databaseDetails = databaseOnRecipes
+            RecipeDetailsFragment.recipe = recipeDetails
             Repository.listOfRecipeForDetail.clear()
             Repository.listOfRecipeForDetail.add(recipeDetails)
             val mainActivity = activity as MainActivity
             mainActivity.swapFragments(RecipeDetailsFragment())
         },{recipeDuplicate ->
-            val duplicateRecipe = Recipes(
+            duplicateRecipe = Recipes(
                     recipeName = recipeDuplicate.recipeName +"_copy"+Date().time.toString(),
                     recipeCategory = recipeDuplicate.recipeCategory,
                     description = recipeDuplicate.description,
@@ -36,38 +45,28 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
                     cookingInstructions = recipeDuplicate.cookingInstructions,
                     recipeImage = recipeDuplicate.recipeImage
             )
-            //Repository.recipesList.add(duplicateRecipe)
-            //Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
-            AsyncTask.execute {
-                databaseOnRecipes.recipesDao().addRecipe(duplicateRecipe)
-                recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
-                runOnUiThread{}
-                recipesAdapter.notifyDataSetChanged()
-            }
-            //recipesAdapter.notifyDataSetChanged()
-
-
-
+                CoroutineScope(IO).launch{
+                    makeCopy()
+                }
         },{recipeDelete ->
-            Repository.recipesList.remove(recipeDelete)
-            Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
-            recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
-            recipesAdapter.notifyDataSetChanged()
-            val mainActivity = activity as MainActivity
-            mainActivity.deleteRecipe(recipeDelete.recipeName)
+            CoroutineScope(IO).launch {
+                deleteRecipe(recipeDelete)
+            }
         },{recipeEdit ->
             Repository.recipeToEdit = recipeEdit
             EditRecipeDialog.create {
-                recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
-                recipesAdapter.notifyDataSetChanged()
+                CoroutineScope(IO).launch {
+                    addToAdapterAndNotify()
+                }
             }.show(parentFragmentManager,"Open Edit Recipe")
         })
 
         binding.apply {
             addRecipeFab.setOnClickListener {
                 AddRecipeDialog.create {
-                    recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
-                    recipesAdapter.notifyDataSetChanged()
+                    CoroutineScope(IO).launch {
+                        addToAdapterAndNotify()
+                    }
                 }.show(parentFragmentManager,"Open Add Recipe")
             }
             recipesRecyclerView.apply {
@@ -82,11 +81,25 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             }
         }
     }
-    fun copyAsync(){
-        AsyncTask.execute {
-            runOnUiThread{
-
-            }
+    suspend fun updateRecipesAdapter(){
+        withContext(Main){
+            recipesAdapter.notifyDataSetChanged()
         }
+    }
+    suspend fun makeCopy(){
+        databaseOnRecipes.recipesDao().addRecipe(duplicateRecipe)
+        recipesAdapter.submitList(databaseOnRecipes.recipesDao().getAllRecipes())
+        updateRecipesAdapter()
+    }
+
+    suspend fun deleteRecipe(recipe:Recipes){
+        databaseOnRecipes.recipesDao().deleteFromRecipes(recipe.key)
+        recipesAdapter.submitList(databaseOnRecipes.recipesDao().getAllRecipes())
+        updateRecipesAdapter()
+    }
+
+    suspend fun addToAdapterAndNotify(){
+        recipesAdapter.submitList(databaseOnRecipes.recipesDao().getAllRecipes())
+        updateRecipesAdapter()
     }
 }

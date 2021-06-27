@@ -13,6 +13,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import com.example.foodmanchu.databinding.FragmentAddRecipeBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddRecipeDialog:DialogFragment() {
     companion object{
@@ -22,6 +26,7 @@ class AddRecipeDialog:DialogFragment() {
             }
         }
         private const val PICK_IMAGE = 101
+        lateinit var databaseAddRecipe:Database
     }
     private var imageUri = "".toUri()
     private var listener : () -> Unit = {}
@@ -50,8 +55,10 @@ class AddRecipeDialog:DialogFragment() {
     return AlertDialog.Builder(requireContext())
         .setView(binding.root)
         .setPositiveButton("Add"){_,_ ->
-            addRecipeToListAndDataBase(binding)
-            listener()
+            CoroutineScope(IO).launch {
+                addRecipeToListAndDataBase(binding)
+
+            }
         }
         .setNegativeButton("Cancel",null)
         .create()
@@ -91,7 +98,7 @@ class AddRecipeDialog:DialogFragment() {
         dialog.show()
     }
 
-    fun addRecipeToListAndDataBase(binding:FragmentAddRecipeBinding){
+    suspend fun addRecipeToListAndDataBase(binding:FragmentAddRecipeBinding){
         var ingredientsSelectedString = ""
         for(ingredient in Repository.listOfSelectedIngredientsForRecipe){
             ingredientsSelectedString += "$ingredient,"
@@ -106,10 +113,15 @@ class AddRecipeDialog:DialogFragment() {
             recipeCategory = binding.addRecipeCategoryLayout.editText?.text?.toString()?:"",
             recipeImage = imageUri.toString()
         )
-        Repository.recipesList.add(newRecipe)
-        Repository.recipesListFilterForCategoryClick.add(newRecipe)
-        val mainActivity = activity as MainActivity
-        mainActivity.addRecipe(newRecipe)
+        addRecipe(newRecipe)
+        withContext(IO){
+            listener()
+        }
+
+        //Repository.recipesList.add(newRecipe)
+       // Repository.recipesListFilterForCategoryClick.add(newRecipe)
+        //val mainActivity = activity as MainActivity
+        //mainActivity.addRecipe(newRecipe)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -123,5 +135,9 @@ class AddRecipeDialog:DialogFragment() {
                 addImage?.setImageURI(imageUri)
             }
         }
+    }
+
+    suspend fun addRecipe(newRecipe:Recipes){
+        databaseAddRecipe.recipesDao().addRecipe(newRecipe)
     }
 }
