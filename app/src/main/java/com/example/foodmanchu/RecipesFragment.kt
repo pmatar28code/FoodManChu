@@ -1,17 +1,25 @@
 package com.example.foodmanchu
 
+import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodmanchu.databinding.RecipesFragmentBinding
 import java.util.*
 
 class RecipesFragment: Fragment(R.layout.recipes_fragment) {
     lateinit var recipesAdapter : RecipesAdapter
+    companion object{
+        lateinit var databaseOnRecipes:Database
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = RecipesFragmentBinding.bind(view)
+        Log.e("Testing on Load frag","$databaseOnRecipes")
 
         recipesAdapter = RecipesAdapter({ recipeDetails ->
             Repository.listOfRecipeForDetail.clear()
@@ -28,12 +36,17 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
                     cookingInstructions = recipeDuplicate.cookingInstructions,
                     recipeImage = recipeDuplicate.recipeImage
             )
-            Repository.recipesList.add(duplicateRecipe)
-            Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
-            recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
-            recipesAdapter.notifyDataSetChanged()
-            val mainActivity = activity as MainActivity
-            mainActivity.addRecipe(duplicateRecipe)
+            //Repository.recipesList.add(duplicateRecipe)
+            //Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
+            AsyncTask.execute {
+                databaseOnRecipes.recipesDao().addRecipe(duplicateRecipe)
+                recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
+                runOnUiThread{}
+                recipesAdapter.notifyDataSetChanged()
+            }
+            //recipesAdapter.notifyDataSetChanged()
+
+
 
         },{recipeDelete ->
             Repository.recipesList.remove(recipeDelete)
@@ -60,8 +73,19 @@ class RecipesFragment: Fragment(R.layout.recipes_fragment) {
             recipesRecyclerView.apply {
                 adapter = recipesAdapter
                 layoutManager = LinearLayoutManager(requireContext())
-                recipesAdapter.submitList(Repository.recipesListFilterForCategoryClick)
-                recipesAdapter.notifyDataSetChanged()
+                AsyncTask.execute {
+                    var recipesList = databaseOnRecipes?.recipesDao()?.getAllRecipes()
+                    Log.e("From DATABASE","$recipesList")
+                    recipesAdapter.submitList(recipesList?.toMutableList())
+                    recipesAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+    fun copyAsync(){
+        AsyncTask.execute {
+            runOnUiThread{
+
             }
         }
     }

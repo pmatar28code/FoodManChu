@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.room.Room
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
         Repository.checkIfDatabaseForIngredientsIsEmpty(database)
         Repository.checkIfDatabaseForRecipesIsEmpty(database)
 
+        Log.e("Database Main","$database")
+
         binding.apply {
             bottomNavigationView.setOnNavigationItemSelectedListener {
                 handleBottomNavigation(it.itemId, binding)
@@ -55,6 +58,7 @@ class MainActivity : AppCompatActivity(),DatabaseInterface {
              true
         }
         R.id.menu_recipes -> {
+            RecipesFragment.databaseOnRecipes = database
             Repository.recipesListFilterForCategoryClick.clear()
             Repository.recipesListFilterForCategoryClick = Repository.recipesList.map { it }.toMutableList()
             swapFragments(RecipesFragment())
